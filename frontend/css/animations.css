@@ -1,41 +1,103 @@
 /* ==========================================================================
-   CivicAI - Subtle Kinetic Flow & Dynamic Animations
+   CivicAI - Subtle Kinetic Motion & Organic Flow Animations
    ========================================================================== */
 
-/* Civic Wave Canvas Background */
-.wave-canvas-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-  pointer-events: none;
-}
-
-#hero-wave-canvas {
-  width: 100%;
-  height: 100%;
-  opacity: 0.65;
-}
-
-/* Keyframes */
-@keyframes pulseGlow {
+/* Ken Burns Subtle Slow Zoom Effect for Hero Cinematic Image */
+@keyframes kenBurnsZoom {
   0% {
-    box-shadow: 0 0 0 0 rgba(224, 93, 68, 0.4);
+    transform: scale(1.0) translate(0, 0);
   }
-  70% {
-    box-shadow: 0 0 0 12px rgba(224, 93, 68, 0);
+  50% {
+    transform: scale(1.06) translate(-1%, -1%);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(224, 93, 68, 0);
+    transform: scale(1.02) translate(1%, 0.5%);
   }
 }
 
-@keyframes floatGentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+.hero-cinematic-img {
+  animation: kenBurnsZoom 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Floating Telemetry Glass Badges */
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.telemetry-float-1 {
+  animation: floatSubtle 5s ease-in-out infinite;
+}
+
+.telemetry-float-2 {
+  animation: floatSubtle 6s ease-in-out 1.5s infinite;
+}
+
+/* Flowing Organic Wave Divider Styling */
+.wave-divider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 64px;
+}
+
+/* Pulse Glow for Critical Emergency Markers */
+@keyframes pulseCritical {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 88, 63, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(220, 88, 63, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 88, 63, 0);
+  }
+}
+
+.pulse-critical {
+  animation: pulseCritical 2.2s infinite;
+}
+
+/* Continuous Data Flow Stream Gradient */
+@keyframes dataFlowLine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.journey-flow-line {
+  height: 3px;
+  background: linear-gradient(90deg, #C7DFD3, #26717C, #4B85CC, #2D8B6D, #C7DFD3);
+  background-size: 200% 100%;
+  animation: dataFlowLine 5s linear infinite;
+  border-radius: var(--radius-full);
+}
+
+/* Standard Transitions */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes slideInRight {
@@ -49,36 +111,6 @@
   }
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes dataFlowLine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-/* Applied Animation Classes */
-.animate-float {
-  animation: floatGentle 4s ease-in-out infinite;
-}
-
-.pulse-critical {
-  animation: pulseGlow 2s infinite;
-}
-
-.fade-in {
-  animation: fadeInScale 0.3s ease-out forwards;
-}
-
-/* Interactive Card Elevate */
 .hover-lift {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
@@ -88,27 +120,18 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Visual Journey Flow Lines */
-.journey-flow-line {
-  height: 3px;
-  background: linear-gradient(90deg, #A7D7C5, #26717C, #508CD7, #389E78);
-  background-size: 200% 100%;
-  animation: dataFlowLine 4s linear infinite;
-  border-radius: var(--radius-full);
-}
-
-/* Timeline Progress Styling */
+/* Timeline Progress Track */
 .timeline-track {
   position: relative;
-  padding-left: 2.5rem;
+  padding-left: 2.75rem;
 }
 
 .timeline-track::before {
   content: '';
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 15px;
+  top: 12px;
+  bottom: 12px;
+  left: 17px;
   width: 2px;
   background: var(--sage-200);
 }
@@ -124,10 +147,10 @@
 
 .timeline-marker {
   position: absolute;
-  left: -2.5rem;
+  left: -2.75rem;
   top: 0;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-full);
   background: #FFFFFF;
   border: 2px solid var(--border-light);
@@ -135,7 +158,7 @@
   align-items: center;
   justify-content: center;
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
   transition: all 0.3s ease;
   z-index: 1;

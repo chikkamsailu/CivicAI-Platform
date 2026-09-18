@@ -1,16 +1,112 @@
-﻿// CivicAI - Issue Reporting Wizard & Live AI Assistant
+// CivicAI - Guided 4-Step Issue Reporting Wizard & Live AI Assistant
 
 let reportMap = null;
 let reportMarker = null;
 let aiDebounceTimer = null;
 let uploadedPhotoUrl = null;
+let currentWizardStep = 1;
 
-const DEFAULT_COORDS = [12.9716, 77.5946]; // Bangalore civic center
+const DEFAULT_COORDS = [12.9716, 77.5946]; // Bengaluru Civic Center
 
+// Step Wizard Navigation
+function goToWizardStep(step) {
+  currentWizardStep = step;
+
+  // Update step nodes
+  for (let i = 1; i <= 4; i++) {
+    const node = document.getElementById(`wizard-node-${i}`);
+    const section = document.getElementById(`wizard-step-${i}`);
+
+    if (node) {
+      if (i < step) {
+        node.className = 'wizard-step-node completed';
+      } else if (i === step) {
+        node.className = 'wizard-step-node active';
+      } else {
+        node.className = 'wizard-step-node';
+      }
+    }
+
+    if (section) {
+      section.style.display = (i === step) ? 'block' : 'none';
+      if (i === step) section.classList.add('fade-in');
+    }
+  }
+
+  // Refresh map view if moving to locate step
+  if (step === 2) {
+    setTimeout(() => {
+      if (reportMap) {
+        reportMap.invalidateSize();
+      } else {
+        initReportMap();
+      }
+    }, 100);
+  }
+
+  // Populate Review step summary if moving to step 4
+  if (step === 4) {
+    populateReviewSummary();
+  }
+
+  // Smooth scroll to top of wizard
+  const wizardCard = document.getElementById('issue-report-form');
+  if (wizardCard) {
+    wizardCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function nextWizardStep() {
+  if (currentWizardStep === 1) {
+    const title = document.getElementById('report-title')?.value.trim();
+    const desc = document.getElementById('report-description')?.value.trim();
+    if (!title || !desc) {
+      showToast('Please provide an issue title and description to proceed.', 'error');
+      return;
+    }
+  } else if (currentWizardStep === 2) {
+    const address = document.getElementById('report-address')?.value.trim();
+    if (!address) {
+      showToast('Please enter an address or street location.', 'error');
+      return;
+    }
+  }
+  goToWizardStep(Math.min(4, currentWizardStep + 1));
+}
+
+function prevWizardStep() {
+  goToWizardStep(Math.max(1, currentWizardStep - 1));
+}
+
+function populateReviewSummary() {
+  const title = document.getElementById('report-title')?.value || '—';
+  const desc = document.getElementById('report-description')?.value || '—';
+  const category = document.querySelector('input[name="category"]:checked')?.value || 'Other';
+  const locType = document.querySelector('input[name="location_type"]:checked')?.value || 'Public / Community';
+  const address = document.getElementById('report-address')?.value || '—';
+  const ward = document.getElementById('report-ward')?.value || '—';
+  const name = document.getElementById('report-name')?.value || 'Anonymous Citizen';
+
+  const revTitle = document.getElementById('rev-title');
+  const revCat = document.getElementById('rev-category');
+  const revLoc = document.getElementById('rev-location');
+  const revAddress = document.getElementById('rev-address');
+  const revReporter = document.getElementById('rev-reporter');
+
+  if (revTitle) revTitle.innerText = title;
+  if (revCat) revCat.innerText = category;
+  if (revLoc) revLoc.innerText = `${locType} (${ward})`;
+  if (revAddress) revAddress.innerText = address;
+  if (revReporter) revReporter.innerText = name;
+}
+
+// Leaflet Map Initialization
 function initReportMap() {
   const mapContainer = document.getElementById('report-map');
-  if (!mapContainer || reportMap) {
-    if (reportMap) reportMap.invalidateSize();
+  if (!mapContainer) return;
+
+  if (reportMap) {
+    reportMap.invalidateSize();
     return;
   }
 
@@ -25,9 +121,9 @@ function initReportMap() {
 
   const customPin = L.divIcon({
     className: 'custom-map-pin',
-    html: `<div style="background:#26717C; width:28px; height:28px; border-radius:50%; border:3px solid #FFF; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; color:#FFF; font-size:12px;">📍</div>`,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14]
+    html: `<div style="background:#26717C; width:30px; height:30px; border-radius:50%; border:3px solid #FFF; box-shadow:0 2px 8px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; color:#FFF; font-size:14px;">📍</div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
   });
 
   reportMarker = L.marker(DEFAULT_COORDS, {
@@ -55,7 +151,7 @@ function updateLocationInputs(lat, lng) {
 
   if (latInput) latInput.value = lat.toFixed(6);
   if (lngInput) lngInput.value = lng.toFixed(6);
-  if (coordDisplay) coordDisplay.innerText = `GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  if (coordDisplay) coordDisplay.innerText = `GPS Fixed: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 
   triggerAIPreAnalyze();
 }
@@ -66,10 +162,11 @@ function useCurrentGPS() {
     return;
   }
 
-  showToast('Acquiring precise GPS coordinates...', 'info');
+  showToast('Acquiring precise GPS coordinates from device...', 'info');
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       const { latitude, longitude } = pos.coords;
+      if (!reportMap) initReportMap();
       if (reportMap && reportMarker) {
         reportMap.setView([latitude, longitude], 16);
         reportMarker.setLatLng([latitude, longitude]);
@@ -79,7 +176,7 @@ function useCurrentGPS() {
     },
     (err) => {
       console.warn('Geolocation error:', err);
-      showToast('Could not acquire GPS location. Tap map to place pin.', 'error');
+      showToast('Could not acquire GPS. Drag the map pin to set position.', 'error');
     },
     { enableHighAccuracy: true, timeout: 8000 }
   );
@@ -121,7 +218,7 @@ function triggerAIPreAnalyze() {
     } catch (err) {
       console.error('AI Pre-analyze error:', err);
     }
-  }, 450);
+  }, 400);
 }
 
 function renderAIPreview(aiData) {
@@ -155,7 +252,7 @@ function renderAIPreview(aiData) {
     if (aiData.potential_duplicate) {
       dupBox.style.display = 'flex';
       dupBox.innerHTML = `
-        <div style="font-size:1.2rem;">⚠️</div>
+        <div style="font-size:1.25rem;">⚠️</div>
         <div>
           <strong style="color:var(--amber-500);">Nearby Matching Issue Detected</strong>
           <p style="font-size:0.84rem; margin-top:0.2rem;">Matches active ticket <strong>${aiData.duplicate_ticket_id}</strong> (${Math.round(aiData.duplicate_similarity * 100)}% match). You may still submit to boost resolution priority.</p>
@@ -252,7 +349,6 @@ function initPhotoUpload() {
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
       
-      // Local preview
       const reader = new FileReader();
       reader.onload = (e) => {
         if (previewImg && previewContainer) {
@@ -262,7 +358,6 @@ function initPhotoUpload() {
       };
       reader.readAsDataURL(file);
 
-      // Async upload to backend
       const formData = new FormData();
       formData.append('file', file);
 
@@ -274,7 +369,7 @@ function initPhotoUpload() {
         if (res.ok) {
           const data = await res.json();
           uploadedPhotoUrl = data.url;
-          showToast('Photo uploaded successfully!', 'success');
+          showToast('Photo evidence attached successfully!', 'success');
         }
       } catch (err) {
         console.error('Photo upload error:', err);
@@ -307,13 +402,14 @@ async function handleReportSubmit(e) {
 
   if (!title || !description) {
     showToast('Please provide an issue title and description.', 'error');
+    goToWizardStep(1);
     return;
   }
 
   const submitBtn = document.getElementById('report-submit-btn');
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerText = 'Submitting & Processing with AI...';
+    submitBtn.innerText = 'Submitting & AI Routing...';
   }
 
   try {
@@ -345,24 +441,24 @@ async function handleReportSubmit(e) {
     }
 
     const complaint = await res.json();
-    showToast(`Issue ${complaint.id} successfully filed!`, 'success');
+    showToast(`Issue ${complaint.id} successfully logged!`, 'success');
     
-    // Show confirmation modal
     openSuccessModal(complaint);
 
-    // Reset Form
+    // Reset Form & Wizard
     document.getElementById('issue-report-form').reset();
     resetAIPreview();
     if (document.getElementById('photo-preview-container')) {
       document.getElementById('photo-preview-container').style.display = 'none';
     }
+    goToWizardStep(1);
   } catch (err) {
     console.error('Submission error:', err);
     showToast(err.message, 'error');
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerText = 'Submit Issue Report';
+      submitBtn.innerText = 'Submit Complaint to Civic Ledger';
     }
   }
 }
@@ -403,7 +499,6 @@ function closeSuccessModal() {
   if (modal) modal.classList.remove('active');
 }
 
-// Setup Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('issue-report-form');
   if (form) {
@@ -415,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gpsBtn.addEventListener('click', useCurrentGPS);
   }
 
-  // Location Type Radio Change
   document.querySelectorAll('input[name="location_type"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       populateInstitutionDropdown(e.target.value);
@@ -423,12 +517,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Category Radio Change
   document.querySelectorAll('input[name="category"]').forEach(radio => {
     radio.addEventListener('change', triggerAIPreAnalyze);
   });
 
-  // Real-time Text Inputs
   const titleInput = document.getElementById('report-title');
   const descInput = document.getElementById('report-description');
   if (titleInput) titleInput.addEventListener('input', triggerAIPreAnalyze);
@@ -436,3 +528,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initPhotoUpload();
 });
+
+// Quick select from Homepage Category Cards
+function selectCategoryAndReport(categoryName) {
+  switchTab('report');
+  goToWizardStep(1);
+  setTimeout(() => {
+    const radio = document.querySelector(`input[name="category"][value="${categoryName}"]`);
+    if (radio) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change'));
+    }
+  }, 100);
+}
+

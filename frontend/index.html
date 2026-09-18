@@ -8,7 +8,7 @@
   
   <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Leaflet GIS Map CSS -->
@@ -49,364 +49,872 @@
 
       <div class="nav-actions">
         <button class="btn btn-primary btn-sm" data-action="report-issue">+ Report Issue</button>
-        <button class="mobile-menu-toggle" aria-label="Toggle Menu">☰</button>
+        <button class="mobile-menu-toggle" aria-label="Toggle Menu">&#9776;</button>
       </div>
     </div>
   </nav>
 
   <!-- ==================== TAB: HOME / HERO ==================== -->
   <main id="tab-home" class="tab-content active">
-    <section class="hero-section" style="position:relative; padding: 4rem 0 3rem; overflow:hidden;">
+    <!-- Hero Section -->
+    <section class="hero-section" style="position:relative; padding: 4.5rem 0 3.5rem; overflow:hidden;">
       <div class="wave-canvas-container">
         <canvas id="hero-wave-canvas"></canvas>
       </div>
 
       <div class="container" style="position:relative; z-index:1;">
-        <div class="hero-grid" style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:3.5rem; align-items:center;">
+        <div class="hero-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:3.5rem; align-items:center;">
+          <!-- Hero Left Column -->
           <div>
             <div style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--sage-100); border:1px solid var(--sage-200); padding:0.35rem 0.85rem; border-radius:var(--radius-full); margin-bottom:1.5rem;">
               <span style="width:8px; height:8px; border-radius:50%; background:var(--sage-500); display:inline-block;"></span>
               <span style="font-size:0.82rem; font-weight:700; color:var(--sage-700); text-transform:uppercase; letter-spacing:0.05em;">Universal Civic & Institutional Resolution</span>
             </div>
 
-            <h1 style="margin-bottom:1.25rem; color:var(--navy-900); font-weight:800;">
+            <h1 style="margin-bottom:1.25rem; color:var(--navy-900); font-weight:800; font-size:2.8rem; line-height:1.15;">
               Report problems.<br />
               Connect communities.<br />
               <span style="background: linear-gradient(135deg, #111D2B 0%, #26717C 50%, #448974 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Improve places.</span>
             </h1>
 
-            <p style="font-size:1.15rem; color:var(--text-muted); margin-bottom:2rem; max-width:560px; line-height:1.6;">
-              An AI-powered platform that turns everyday civic and institutional issues into actionable solutions across city roads, schools, universities, workplaces, and healthcare facilities.
+            <p style="font-size:1.12rem; color:var(--text-muted); margin-bottom:2rem; max-width:560px; line-height:1.65;">
+              An AI-powered civic technology operating system that connects citizens, students, and employees directly with municipal departments and specialized maintenance squads.
             </p>
 
             <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2.5rem;">
               <button class="btn btn-primary btn-lg" data-action="report-issue">
                 <span>REPORT AN ISSUE</span>
-                <span>→</span>
+                <span>&rarr;</span>
               </button>
               <button class="btn btn-secondary btn-lg" data-action="explore-platform">
-                <span>EXPLORE CIVICAI</span>
+                <span>EXPLORE PLATFORM</span>
               </button>
             </div>
 
             <!-- Quick Track Input Bar -->
-            <div class="card" style="padding:1rem 1.25rem; background:#FFFFFF; max-width:520px; box-shadow:var(--shadow-sm); border:1px solid var(--border-light);">
+            <div class="card" style="padding:1.1rem 1.25rem; background:#FFFFFF; max-width:540px; box-shadow:var(--shadow-sm); border:1px solid var(--border-light);">
+              <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:0.45rem;">Direct Ticket Tracking</div>
               <form id="hero-quick-track-form" style="display:flex; gap:0.5rem;">
-                <input type="text" id="hero-track-id-input" placeholder="Enter Reference ID (e.g. CIVIC-2026-1001)" style="flex:1; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.6rem 0.9rem; font-size:0.9rem; font-family:var(--font-body); outline:none;" />
-                <button type="submit" class="btn btn-secondary btn-sm" style="padding:0.6rem 1rem;">Track Status</button>
+                <input type="text" id="hero-track-id-input" placeholder="Enter Reference ID (e.g. CIVIC-2026-1001)" style="flex:1; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.65rem 0.9rem; font-size:0.9rem; font-family:var(--font-body); outline:none;" />
+                <button type="submit" class="btn btn-secondary btn-sm" style="padding:0.65rem 1.1rem;">Track Status</button>
               </form>
+              <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.4rem; font-size:0.78rem; color:var(--text-light);">
+                <span>Try:</span>
+                <a href="javascript:void(0)" onclick="document.getElementById('hero-track-id-input').value='CIVIC-2026-1001'" style="color:var(--teal-600); text-decoration:underline;">CIVIC-2026-1001</a>
+                <span>&bull;</span>
+                <a href="javascript:void(0)" onclick="document.getElementById('hero-track-id-input').value='CIVIC-2026-1011'" style="color:var(--teal-600); text-decoration:underline;">CIVIC-2026-1011</a>
+              </div>
             </div>
           </div>
 
-          <!-- Hero Visual Banner Card -->
-          <div class="hero-visual-card animate-float" style="position:relative;">
-            <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1px solid var(--border-light); background:#FFFFFF;">
-              <img src="/assets/civic_hero.jpg" alt="CivicAI Modern Cityscape" style="width:100%; height:auto; display:block; object-fit:cover;" />
-              <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(17, 29, 43, 0.85)); padding:1.25rem; color:#FFFFFF;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <div>
-                    <h4 style="color:#FFFFFF; font-size:1.1rem; margin-bottom:0.2rem;">Integrated City & Campus Grid</h4>
-                    <p style="color:rgba(255,255,255,0.8); font-size:0.82rem;">AI classification, dispatch routing & on-site tracking</p>
-                  </div>
-                  <span class="badge" style="background:rgba(255,255,255,0.2); color:#FFFFFF; backdrop-filter:blur(4px);">Live AI Active</span>
-                </div>
+          <!-- Hero Right Column: Large Cinematic Visual Card with Ken Burns & Telemetry -->
+          <div class="hero-visual-card" style="position:relative;">
+            <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1px solid var(--border-light); background:#FFFFFF; height:460px;">
+              <img src="/assets/hero_cinematic.jpg" alt="CivicAI Metropolitan & Institutional Grid" class="ken-burns-img" style="width:100%; height:100%; object-fit:cover; display:block;" />
+              
+              <!-- Ambient Gradient Overlay -->
+              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(17,29,43,0.15) 0%, rgba(17,29,43,0.75) 100%); pointer-events:none;"></div>
+
+              <!-- Top Left Floating Telemetry Badge -->
+              <div class="telemetry-badge telemetry-badge-tl">
+                <span class="pulse-marker" style="background:#EF4444;"></span>
+                <span>Indiranagar Zone &bull; Active GIS Hotspot</span>
+              </div>
+
+              <!-- Top Right Floating Telemetry Badge -->
+              <div class="telemetry-badge telemetry-badge-tr">
+                <span style="color:#26717C; font-weight:800;">18.5h</span>
+                <span>Avg SLA &bull; Rapid Triage</span>
+              </div>
+
+              <!-- Bottom Floating Telemetry Badge -->
+              <div class="telemetry-badge telemetry-badge-bl">
+                <span style="color:#448974; font-weight:800;">ML Active</span>
+                <span>Scikit-Learn Classifier &bull; 96% Precision</span>
+              </div>
+
+              <!-- Bottom Content Caption -->
+              <div style="position:absolute; bottom:0; left:0; right:0; padding:1.25rem 1.5rem; color:#FFFFFF; z-index:2;">
+                <h4 style="color:#FFFFFF; font-size:1.15rem; margin-bottom:0.25rem; font-weight:700;">Metropolitan & Institutional Grid</h4>
+                <p style="color:rgba(255,255,255,0.85); font-size:0.85rem; margin:0;">Automated NLP routing, spatial duplicate filtering & on-site proof verification.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Visual Flow: REPORT -> AI -> ACTION -> RESOLUTION -->
-        <div style="margin-top:4rem;">
-          <div style="text-align:center; margin-bottom:1.5rem;">
-            <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600);">Universal Resolution Pipeline</span>
-          </div>
-
-          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:1.25rem;" class="stats-ticker-grid">
-            <div class="card" style="padding:1.25rem; text-align:center;">
-              <div style="font-size:1.75rem; margin-bottom:0.5rem;">📝</div>
-              <h4 style="font-size:1rem; margin-bottom:0.25rem;">1. Report Issue</h4>
-              <p style="font-size:0.82rem;">Citizen or student logs issue with GPS & photo evidence.</p>
-            </div>
-            <div class="card" style="padding:1.25rem; text-align:center;">
-              <div style="font-size:1.75rem; margin-bottom:0.5rem;">🧠</div>
-              <h4 style="font-size:1rem; margin-bottom:0.25rem;">2. AI Intelligence</h4>
-              <p style="font-size:0.82rem;">ML predicts category, priority & checks for duplicates.</p>
-            </div>
-            <div class="card" style="padding:1.25rem; text-align:center;">
-              <div style="font-size:1.75rem; margin-bottom:0.5rem;">🚜</div>
-              <h4 style="font-size:1rem; margin-bottom:0.25rem;">3. Field Action</h4>
-              <p style="font-size:0.82rem;">Workload-balanced dispatch to specialized maintenance crew.</p>
-            </div>
-            <div class="card" style="padding:1.25rem; text-align:center;">
-              <div style="font-size:1.75rem; margin-bottom:0.5rem;">✅</div>
-              <h4 style="font-size:1rem; margin-bottom:0.25rem;">4. Resolution</h4>
-              <p style="font-size:0.82rem;">Repair documented with photo evidence & verified sign-off.</p>
-            </div>
-          </div>
-          <div class="journey-flow-line" style="margin-top:1rem;"></div>
+        <!-- Flowing Wave SVG Transition -->
+        <div style="margin-top:4rem; margin-bottom:2rem; overflow:hidden; line-height:0;">
+          <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="width:100%; height:30px; fill:none;">
+            <path d="M0,0 C300,50 600,10 900,40 C1050,55 1150,20 1200,30 L1200,60 L0,60 Z" fill="rgba(68, 137, 116, 0.08)"></path>
+          </svg>
         </div>
 
         <!-- Live Platform Stats Ticker -->
-        <div style="margin-top:3.5rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+        <div style="background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
           <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1.5rem; text-align:center;" class="stats-ticker-grid">
             <div>
-              <div id="stat-total-reports" style="font-size:2.2rem; font-weight:800; color:var(--navy-900); font-family:var(--font-heading);">24</div>
-              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Total Civic Reports</div>
+              <div id="stat-total-reports" style="font-size:2.4rem; font-weight:800; color:var(--navy-900); font-family:var(--font-heading);">24</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem; letter-spacing:0.04em;">Total Civic Reports</div>
             </div>
             <div>
-              <div id="stat-active-resolving" style="font-size:2.2rem; font-weight:800; color:var(--amber-500); font-family:var(--font-heading);">10</div>
-              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Active In Resolution</div>
+              <div id="stat-active-resolving" style="font-size:2.4rem; font-weight:800; color:var(--amber-500); font-family:var(--font-heading);">10</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem; letter-spacing:0.04em;">Active In Resolution</div>
             </div>
             <div>
-              <div id="stat-resolved-rate" style="font-size:2.2rem; font-weight:800; color:var(--green-500); font-family:var(--font-heading);">58%</div>
-              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Resolution Rate</div>
+              <div id="stat-resolved-rate" style="font-size:2.4rem; font-weight:800; color:var(--green-500); font-family:var(--font-heading);">58%</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem; letter-spacing:0.04em;">Resolution SLA Rate</div>
             </div>
             <div>
-              <div id="stat-avg-sla" style="font-size:2.2rem; font-weight:800; color:var(--teal-500); font-family:var(--font-heading);">18.5h</div>
-              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Avg. Resolution Time</div>
+              <div id="stat-avg-sla" style="font-size:2.4rem; font-weight:800; color:var(--teal-500); font-family:var(--font-heading);">18.5h</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem; letter-spacing:0.04em;">Avg. Turnaround Time</div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </main>
 
-  <!-- ==================== TAB: REPORT AN ISSUE ==================== -->
-  <section id="tab-report" class="tab-content">
-    <div class="container" style="padding-top:2.5rem; max-width:960px;">
-      <div style="text-align:center; margin-bottom:2.5rem;">
-        <h2 style="font-size:2.2rem; margin-bottom:0.5rem; color:var(--navy-900);">Report an Issue</h2>
-        <p style="font-size:1.05rem; color:var(--text-muted);">Real-time AI classification, spatial duplicate scanning, and direct squad dispatch.</p>
+    <!-- SECTION: One Platform. Every Issue. (8 Category Cards) -->
+    <section style="padding: 4.5rem 0; background: #FFFFFF; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light);">
+      <div class="container">
+        <div style="text-align:center; max-width:720px; margin:0 auto 3rem;">
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.5rem;">Comprehensive Scope</span>
+          <h2 style="font-size:2.4rem; color:var(--navy-900); margin-bottom:0.75rem;">One Platform. Every Issue.</h2>
+          <p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">
+            CivicAI spans municipal infrastructure and private campuses alike. Every category is pre-trained in our NLP engine with dedicated field dispatch workflows.
+          </p>
+        </div>
+
+        <div class="category-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1.25rem;">
+          
+          <!-- Category 1: Roads & Potholes -->
+          <div class="card cat-roads interactive-card" onclick="selectCategoryAndReport('Roads & Potholes')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🛣&#65039;</div>
+                <span class="badge" style="background:#FDE8E8; color:#9B1C1C; font-size:0.75rem; font-weight:700;">8 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Roads & Potholes</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Asphalt craters, damaged curbs, broken road medians, and dangerous speed breakers.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--coral-500); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Road Defect</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 2: Garbage & Waste -->
+          <div class="card cat-waste interactive-card" onclick="selectCategoryAndReport('Garbage & Waste')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🗑&#65039;</div>
+                <span class="badge" style="background:#FEF08A; color:#854D0E; font-size:0.75rem; font-weight:700;">4 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Waste & Sanitation</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Uncollected garbage, overflowing community bins, open littering, and bio-waste.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--amber-500); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Waste Hazard</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 3: Streetlights -->
+          <div class="card cat-lighting interactive-card" onclick="selectCategoryAndReport('Streetlights')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">💡</div>
+                <span class="badge" style="background:#FEF9C3; color:#713F12; font-size:0.75rem; font-weight:700;">3 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Street Lighting</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Dark street corridors, malfunctioning timers, damaged poles, and blinking bulbs.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--teal-600); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Outage</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 4: Water & Drainage -->
+          <div class="card cat-water interactive-card" onclick="selectCategoryAndReport('Drainage & Sewage')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🚰</div>
+                <span class="badge" style="background:#E0F2FE; color:#0369A1; font-size:0.75rem; font-weight:700;">4 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Water & Drainage</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Burst pipelines, low pressure, clogged storm drains, and overflowing manholes.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--teal-600); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Drainage/Leak</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 5: Campus Issues -->
+          <div class="card cat-campus interactive-card" onclick="selectCategoryAndReport('College Issues')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🎓</div>
+                <span class="badge" style="background:#EDE9FE; color:#5B21B6; font-size:0.75rem; font-weight:700;">3 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Campus Infrastructure</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Classroom desks, library AC, laboratory gas/ventilation, and hostel amenities.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--navy-900); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Campus Defect</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 6: Hospital & Healthcare -->
+          <div class="card cat-health interactive-card" onclick="selectCategoryAndReport('Public Infrastructure')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🏥</div>
+                <span class="badge" style="background:#FEE2E2; color:#991B1B; font-size:0.75rem; font-weight:700;">2 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Hospital & Healthcare</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Emergency bay lighting, ramp wheelchair access, backup power, and sanitizers.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--coral-500); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Health Facility</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 7: Parks & Public Spaces -->
+          <div class="card cat-parks interactive-card" onclick="selectCategoryAndReport('Parks & Public Spaces')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">🌳</div>
+                <span class="badge" style="background:#DCFCE7; color:#166534; font-size:0.75rem; font-weight:700;">2 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Parks & Public Spaces</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Damaged playground swings, broken walkway pavers, unpruned branches, and benches.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--sage-700); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Park Issue</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Category 8: Power & Hazards -->
+          <div class="card cat-hazards interactive-card" onclick="selectCategoryAndReport('Electrical')" style="cursor:pointer; padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+                <div style="font-size:2rem;">⚡</div>
+                <span class="badge" style="background:#FEF3C7; color:#92400E; font-size:0.75rem; font-weight:700;">2 Active</span>
+              </div>
+              <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.4rem;">Power & Hazards</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                Hanging overhead cables, sparking transformers, open junction boxes, and gas leaks.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.82rem; font-weight:700; color:var(--amber-500); border-top:1px solid var(--border-light); padding-top:0.75rem;">
+              <span>Report Emergency Risk</span>
+              <span>&rarr;</span>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </section>
 
-      <form id="issue-report-form" class="card" style="padding:2.5rem;">
-        
-        <!-- STEP 1: Where is the issue? -->
-        <div style="margin-bottom:2.25rem;">
-          <label style="display:block; font-size:1.1rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
-            1. Where is the issue located?
-          </label>
-          <div class="wizard-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:0.75rem;">
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="Public / Community" checked style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛣</div>
-              <div style="font-size:0.85rem; font-weight:600;">Public / Road</div>
-            </label>
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="College / University" style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🎓</div>
-              <div style="font-size:0.85rem; font-weight:600;">College / Univ</div>
-            </label>
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="School" style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏫</div>
-              <div style="font-size:0.85rem; font-weight:600;">School</div>
-            </label>
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="Office / Workplace" style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏢</div>
-              <div style="font-size:0.85rem; font-weight:600;">Workplace</div>
-            </label>
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="Hospital / Healthcare" style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏥</div>
-              <div style="font-size:0.85rem; font-weight:600;">Hospital</div>
-            </label>
-            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-              <input type="radio" name="location_type" value="Public Institution" style="display:none;" />
-              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏛</div>
-              <div style="font-size:0.85rem; font-weight:600;">Public Facility</div>
-            </label>
-          </div>
-
-          <!-- Dynamic Institution Dropdown -->
-          <div id="institution-select-container" style="display:none; margin-top:1rem;">
-            <label style="font-size:0.88rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Select Campus or Facility:</label>
-            <select id="report-institution-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
-              <option value="">Select Campus...</option>
-            </select>
-          </div>
+    <!-- SECTION: Who Can Report? (5 Visual Institutional Cards) -->
+    <section style="padding: 4.5rem 0; background: var(--bg-secondary);">
+      <div class="container">
+        <div style="text-align:center; max-width:700px; margin:0 auto 3rem;">
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.5rem;">Universal Accessibility</span>
+          <h2 style="font-size:2.4rem; color:var(--navy-900); margin-bottom:0.75rem;">Who Can Report?</h2>
+          <p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">
+            CivicAI is not just for city streets. Our multi-tenant architecture powers private campuses, educational hubs, and hospital facilities with isolated maintenance ledgers.
+          </p>
         </div>
 
-        <!-- STEP 2: What is the problem? -->
-        <div style="margin-bottom:2.25rem;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-            <label style="font-size:1.1rem; font-weight:700; color:var(--navy-900);">
-              2. What is the category?
-            </label>
-            <label style="font-size:0.8rem; color:var(--teal-600); display:flex; align-items:center; gap:0.35rem; cursor:pointer;">
-              <input type="checkbox" id="auto-sync-category" checked /> Auto-sync with AI prediction
-            </label>
-          </div>
-
-          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Roads & Potholes" checked style="margin-right:0.3rem;" /> Roads & Potholes
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Garbage & Waste" style="margin-right:0.3rem;" /> Garbage & Waste
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Drainage & Sewage" style="margin-right:0.3rem;" /> Drainage & Sewage
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Water Supply" style="margin-right:0.3rem;" /> Water Supply
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Electrical" style="margin-right:0.3rem;" /> Electrical
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Streetlights" style="margin-right:0.3rem;" /> Streetlights
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Public Infrastructure" style="margin-right:0.3rem;" /> Public Infrastructure
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Traffic & Road Signs" style="margin-right:0.3rem;" /> Traffic & Road Signs
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Parks & Public Spaces" style="margin-right:0.3rem;" /> Parks & Public Spaces
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="School Issues" style="margin-right:0.3rem;" /> School Issues
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="College Issues" style="margin-right:0.3rem;" /> College Issues
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Office/Workplace Issues" style="margin-right:0.3rem;" /> Office/Workplace Issues
-            </label>
-            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
-              <input type="radio" name="category" value="Sanitation" style="margin-right:0.3rem;" /> Sanitation
-            </label>
-          </div>
-        </div>
-
-        <!-- Issue Title & Description -->
-        <div style="margin-bottom:1.5rem;">
-          <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
-            Issue Title *
-          </label>
-          <input type="text" id="report-title" required placeholder="e.g. Broken ceiling fan sparking in Engineering Block C" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none;" />
-        </div>
-
-        <div style="margin-bottom:1.5rem;">
-          <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
-            Describe the problem in detail *
-          </label>
-          <textarea id="report-description" required rows="3" placeholder="Provide details such as exact room/pole number, safety hazards, leakage severity, or public disruption..." style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none; resize:vertical;"></textarea>
-        </div>
-
-        <!-- REAL-TIME INTERACTIVE AI ASSISTANT PANEL -->
-        <div id="ai-assistant-preview" style="display:none; background:var(--sage-50); border:1px solid var(--sage-200); border-radius:var(--radius-md); padding:1.25rem; margin-bottom:2rem;">
-          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
-            <span style="font-size:1.2rem;">🧠</span>
-            <strong style="font-size:0.92rem; color:var(--navy-900);">CivicAI Real-Time Analysis</strong>
-            <span id="ai-pred-confidence" class="badge" style="background:var(--sage-200); color:var(--sage-700); font-size:0.72rem; margin-left:auto;">95% Confidence</span>
-          </div>
-
-          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:0.75rem;">
-            <div>
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Predicted Category</div>
-              <strong id="ai-pred-category" style="font-size:0.92rem; color:var(--teal-600);">Roads & Potholes</strong>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem;">
+          
+          <!-- Card 1: Citizens & Neighborhoods -->
+          <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="height:180px; overflow:hidden; position:relative;">
+              <img src="/assets/citizen_street.jpg" alt="Citizens & Neighborhoods" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" class="interactive-img" />
+              <span class="badge" style="position:absolute; top:12px; left:12px; background:rgba(255,255,255,0.92); color:var(--navy-900); font-weight:700;">Public Municipal</span>
             </div>
-            <div>
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Assessed Priority</div>
-              <span id="ai-pred-priority" class="badge badge-medium">Medium</span>
-            </div>
-            <div>
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Recommended Field Squad</div>
-              <strong id="ai-rec-team" style="font-size:0.9rem; color:var(--navy-900);">Rapid Road Maintenance Squad</strong>
+            <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:1.25rem; color:var(--navy-900); margin-bottom:0.4rem;">Citizens & Communities</h3>
+                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                  Residential neighborhoods, public roads, city markets, and municipal parks. Report road hazards or water leaks directly to ward engineers.
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="selectCategoryAndReport('Roads & Potholes')">Report Neighborhood Issue &rarr;</button>
             </div>
           </div>
 
-          <div id="ai-pred-reason" style="font-size:0.82rem; color:var(--text-muted); font-style:italic;">
-            ML model evaluated civic safety criteria and contextual patterns.
+          <!-- Card 2: Schools & Education Centers -->
+          <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="height:180px; overflow:hidden; position:relative;">
+              <img src="/assets/inst_school.jpg" alt="Schools & Education" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" class="interactive-img" />
+              <span class="badge" style="position:absolute; top:12px; left:12px; background:rgba(255,255,255,0.92); color:var(--teal-600); font-weight:700;">K-12 Education</span>
+            </div>
+            <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:1.25rem; color:var(--navy-900); margin-bottom:0.4rem;">Schools & Academies</h3>
+                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                  Classrooms, playground safety, school bus parking, and drinking water purification units reported by staff and parent associations.
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('institutions')">View School Dockets &rarr;</button>
+            </div>
           </div>
 
-          <!-- Duplicate Alert Notice -->
-          <div id="ai-dup-alert" style="display:none; align-items:flex-start; gap:0.75rem; background:var(--amber-100); border:1px solid rgba(229, 154, 38, 0.3); border-radius:var(--radius-sm); padding:0.75rem; margin-top:0.75rem;"></div>
+          <!-- Card 3: Colleges & Universities -->
+          <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="height:180px; overflow:hidden; position:relative;">
+              <img src="/assets/inst_college.jpg" alt="Colleges & Universities" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" class="interactive-img" />
+              <span class="badge" style="position:absolute; top:12px; left:12px; background:rgba(255,255,255,0.92); color:var(--sage-700); font-weight:700;">Higher Ed Campuses</span>
+            </div>
+            <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:1.25rem; color:var(--navy-900); margin-bottom:0.4rem;">Colleges & Universities</h3>
+                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                  Engineering labs, auditorium acoustics, hostel utilities, and sports grounds reported seamlessly by students and university faculty.
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('institutions')">View University Campuses &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Card 4: Workplaces & Tech Parks -->
+          <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="height:180px; overflow:hidden; position:relative;">
+              <img src="/assets/inst_workplace.jpg" alt="Workplaces & Tech Parks" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" class="interactive-img" />
+              <span class="badge" style="position:absolute; top:12px; left:12px; background:rgba(255,255,255,0.92); color:var(--navy-900); font-weight:700;">Corporate Tech Parks</span>
+            </div>
+            <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:1.25rem; color:var(--navy-900); margin-bottom:0.4rem;">Workplaces & IT Parks</h3>
+                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                  Glass facade maintenance, EV charging stations, cafeteria hygiene, and HVAC chiller units logged by corporate campus admins.
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('institutions')">View Tech Park Ledgers &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Card 5: Hospitals & Healthcare -->
+          <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="height:180px; overflow:hidden; position:relative;">
+              <img src="/assets/inst_hospital.jpg" alt="Hospitals & Healthcare" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" class="interactive-img" />
+              <span class="badge" style="position:absolute; top:12px; left:12px; background:rgba(255,255,255,0.92); color:var(--coral-500); font-weight:700;">Critical Healthcare</span>
+            </div>
+            <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <h3 style="font-size:1.25rem; color:var(--navy-900); margin-bottom:0.4rem;">Hospitals & Medical Centers</h3>
+                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">
+                  ICU backup power, oxygen line inspections, stretcher ramp surfaces, and biomedical waste disposal logged for emergency response.
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('institutions')">View Hospital Facility &rarr;</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: AI That Understands Civic Problems (5 Capability Cards) -->
+    <section style="padding: 4.5rem 0; background: #FFFFFF; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light);">
+      <div class="container">
+        <div style="text-align:center; max-width:740px; margin:0 auto 3rem;">
+          <div style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--sage-100); padding:0.3rem 0.85rem; border-radius:var(--radius-full); margin-bottom:0.75rem;">
+            <span style="font-size:0.8rem; font-weight:700; color:var(--sage-700); text-transform:uppercase;">Intelligent Infrastructure</span>
+          </div>
+          <h2 style="font-size:2.4rem; color:var(--navy-900); margin-bottom:0.75rem;">AI That Understands Civic Problems</h2>
+          <p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">
+            CivicAI uses Scikit-Learn NLP models trained on real civic datasets to classify issues, detect emergency hazards, prevent duplicate work, and route to the best field squad.
+          </p>
         </div>
 
-        <!-- Location & Map Picker -->
-        <div style="margin-bottom:2rem;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-            <label style="font-size:1.1rem; font-weight:700; color:var(--navy-900);">
-              3. Location & GPS Pin Drop
-            </label>
-            <button type="button" id="report-use-gps-btn" class="btn btn-secondary btn-sm" style="font-size:0.8rem;">
-              <span>📍 Use My GPS Location</span>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem;">
+          
+          <!-- AI Capability 1 -->
+          <div class="card" style="padding:1.75rem; border-left:4px solid var(--teal-500);">
+            <div style="font-size:1.75rem; margin-bottom:0.75rem;">🧠</div>
+            <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.5rem;">1. NLP Issue Classification</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.55; margin-bottom:0.75rem;">
+              Trained Scikit-Learn TF-IDF vectorizer + Multinomial Naive Bayes categorizes raw citizen text into 12 civic & campus domains with 95%+ precision.
+            </p>
+            <span class="badge" style="background:var(--sage-100); color:var(--sage-700); font-size:0.75rem;">TF-IDF + Naive Bayes</span>
+          </div>
+
+          <!-- AI Capability 2 -->
+          <div class="card" style="padding:1.75rem; border-left:4px solid var(--coral-500);">
+            <div style="font-size:1.75rem; margin-bottom:0.75rem;">⚠️</div>
+            <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.5rem;">2. Hazard & Urgency Scoring</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.55; margin-bottom:0.75rem;">
+              Heuristic hazard keyword weighting detects electric shock, gas leaks, open manholes, and student safety hazards to automatically escalate to Critical status.
+            </p>
+            <span class="badge" style="background:var(--coral-100); color:var(--coral-500); font-size:0.75rem;">Life-Safety Heuristics</span>
+          </div>
+
+          <!-- AI Capability 3 -->
+          <div class="card" style="padding:1.75rem; border-left:4px solid var(--amber-500);">
+            <div style="font-size:1.75rem; margin-bottom:0.75rem;">🔍</div>
+            <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.5rem;">3. Spatial & Semantic Duplicate Detector</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.55; margin-bottom:0.75rem;">
+              Haversine formula flags identical complaints within 150 meters and calculates cosine similarity on problem descriptions, stopping spam and duplicate tickets.
+            </p>
+            <span class="badge" style="background:var(--amber-100); color:var(--amber-500); font-size:0.75rem;">Haversine + Cosine Sim</span>
+          </div>
+
+          <!-- AI Capability 4 -->
+          <div class="card" style="padding:1.75rem; border-left:4px solid var(--sage-500);">
+            <div style="font-size:1.75rem; margin-bottom:0.75rem;">🚜</div>
+            <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.5rem;">4. Workload-Balanced Field Dispatch</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.55; margin-bottom:0.75rem;">
+              Matches domain specialization (Roads, Drainage, Electrical, Campus) and balances queue capacity across 6 field maintenance squads for quickest SLA.
+            </p>
+            <span class="badge" style="background:var(--sage-100); color:var(--sage-700); font-size:0.75rem;">Workload Balancer</span>
+          </div>
+
+          <!-- AI Capability 5 -->
+          <div class="card" style="padding:1.75rem; border-left:4px solid var(--navy-500);">
+            <div style="font-size:1.75rem; margin-bottom:0.75rem;">📊</div>
+            <h3 style="font-size:1.2rem; color:var(--navy-900); margin-bottom:0.5rem;">5. Hotspot & Infrastructure Insights</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.55; margin-bottom:0.75rem;">
+              Aggregates municipal ward density and campus incident clusters to generate predictive maintenance advisories before seasonal monsoons.
+            </p>
+            <span class="badge" style="background:var(--bg-secondary); color:var(--navy-900); font-size:0.75rem;">Spatial Density Clustering</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: Field Operations Workflow (4-Step Visual Journey) -->
+    <section style="padding: 4.5rem 0; background: var(--bg-primary);">
+      <div class="container">
+        <div style="text-align:center; max-width:700px; margin:0 auto 3rem;">
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.5rem;">End-to-End Pipeline</span>
+          <h2 style="font-size:2.4rem; color:var(--navy-900); margin-bottom:0.75rem;">Field Operations Workflow</h2>
+          <p style="font-size:1.05rem; color:var(--text-muted); line-height:1.6;">
+            Every civic issue transitions transparently through verifiable milestones with full audit trail logging and photographic proof sign-offs.
+          </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:1.5rem;" class="stats-ticker-grid">
+          <div class="card" style="padding:1.75rem; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--sage-100); color:var(--sage-700); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.25rem; font-weight:800;">1</div>
+            <h3 style="font-size:1.15rem; color:var(--navy-900); margin-bottom:0.4rem;">Citizen GPS Log</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+              User describes issue, drops pin on Leaflet map, and attaches camera photo proof.
+            </p>
+          </div>
+
+          <div class="card" style="padding:1.75rem; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--teal-100); color:var(--teal-700); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.25rem; font-weight:800;">2</div>
+            <h3 style="font-size:1.15rem; color:var(--navy-900); margin-bottom:0.4rem;">AI Auto-Triage</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+              ML predicts category, scores priority, checks spatial duplicates & selects optimal squad.
+            </p>
+          </div>
+
+          <div class="card" style="padding:1.75rem; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--amber-100); color:var(--amber-700); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.25rem; font-weight:800;">3</div>
+            <h3 style="font-size:1.15rem; color:var(--navy-900); margin-bottom:0.4rem;">Squad Dispatch</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+              Field technicians receive digital work orders with GPS coordinates and spare parts list.
+            </p>
+          </div>
+
+          <div class="card" style="padding:1.75rem; text-align:center;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--green-100); color:var(--green-700); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.25rem; font-weight:800;">4</div>
+            <h3 style="font-size:1.15rem; color:var(--navy-900); margin-bottom:0.4rem;">Proof Sign-Off</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+              Technician submits after-repair photo, updates inventory usage, and completes ticket.
+            </p>
+          </div>
+        </div>
+
+        <!-- Global CTA Banner -->
+        <div style="margin-top:3.5rem; background:linear-gradient(135deg, #111D2B 0%, #26717C 100%); border-radius:var(--radius-lg); padding:2.5rem; color:#FFFFFF; text-align:center;">
+          <h3 style="font-size:1.8rem; color:#FFFFFF; margin-bottom:0.75rem;">Ready to report a civic or institutional issue?</h3>
+          <p style="font-size:1rem; color:rgba(255,255,255,0.85); max-width:550px; margin:0 auto 1.5rem;">
+            Experience instant AI pre-analysis and follow your ticket through transparent resolution milestones.
+          </p>
+          <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+            <button class="btn btn-primary btn-lg" onclick="switchTab('report')" style="background:#FFFFFF; color:var(--navy-900); border:none;">
+              <span>Start Guided Report &rarr;</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="switchTab('gis')" style="border-color:rgba(255,255,255,0.4); color:#FFFFFF;">
+              <span>View City Map</span>
             </button>
           </div>
+        </div>
 
-          <!-- Interactive Leaflet Map -->
-          <div id="report-map" style="height:260px; border-radius:var(--radius-md); border:1px solid var(--border-light); margin-bottom:0.75rem;"></div>
-          <div id="report-coords-display" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">
-            Drag pin or tap map to refine position
-          </div>
+      </div>
+    </section>
+  </main>
 
-          <input type="hidden" id="report-lat" value="12.9716" />
-          <input type="hidden" id="report-lng" value="77.5946" />
+  <!-- ==================== TAB: REPORT AN ISSUE (GUIDED 4-STEP WIZARD) ==================== -->
+  <section id="tab-report" class="tab-content">
+    <div class="container" style="padding-top:2.5rem; max-width:920px;">
+      <div style="text-align:center; margin-bottom:2rem;">
+        <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.35rem;">Guided Wizard</span>
+        <h2 style="font-size:2.3rem; margin-bottom:0.4rem; color:var(--navy-900);">Report an Issue</h2>
+        <p style="font-size:1.02rem; color:var(--text-muted);">Real-time AI classification, spatial duplicate scanning, and direct squad dispatch.</p>
+      </div>
 
-          <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
-            <div>
-              <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Street Address / Building *</label>
-              <input type="text" id="report-address" required placeholder="e.g. 100 Feet Road, near 12th Main" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+      <!-- Step Wizard Progress Indicator -->
+      <div class="wizard-progress-bar" style="margin-bottom:2.5rem;">
+        <div class="wizard-step-node active" id="wizard-node-1" onclick="goToWizardStep(1)">
+          <div class="node-circle">1</div>
+          <div class="node-label">01 Describe</div>
+        </div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step-node" id="wizard-node-2" onclick="goToWizardStep(2)">
+          <div class="node-circle">2</div>
+          <div class="node-label">02 Locate</div>
+        </div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step-node" id="wizard-node-3" onclick="goToWizardStep(3)">
+          <div class="node-circle">3</div>
+          <div class="node-label">03 Evidence</div>
+        </div>
+        <div class="wizard-step-line"></div>
+        <div class="wizard-step-node" id="wizard-node-4" onclick="goToWizardStep(4)">
+          <div class="node-circle">4</div>
+          <div class="node-label">04 Review</div>
+        </div>
+      </div>
+
+      <!-- Main Wizard Form Container -->
+      <form id="issue-report-form" class="card" style="padding:2.5rem;">
+
+        <!-- STEP 1: Describe the Issue -->
+        <div id="wizard-step-1" class="wizard-step-section">
+          <div style="margin-bottom:2rem;">
+            <label style="display:block; font-size:1.15rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+              1. Where is the issue located?
+            </label>
+            <div class="wizard-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:0.75rem;">
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="Public / Community" checked style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛣&#65039;</div>
+                <div style="font-size:0.85rem; font-weight:600;">Public / Road</div>
+              </label>
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="College / University" style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🎓</div>
+                <div style="font-size:0.85rem; font-weight:600;">College / Univ</div>
+              </label>
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="School" style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏫</div>
+                <div style="font-size:0.85rem; font-weight:600;">School</div>
+              </label>
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="Office / Workplace" style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏢</div>
+                <div style="font-size:0.85rem; font-weight:600;">Workplace</div>
+              </label>
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="Hospital / Healthcare" style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏥</div>
+                <div style="font-size:0.85rem; font-weight:600;">Hospital</div>
+              </label>
+              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" name="location_type" value="Public Institution" style="display:none;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏛&#65039;</div>
+                <div style="font-size:0.85rem; font-weight:600;">Public Facility</div>
+              </label>
             </div>
-            <div>
-              <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Landmark (Optional)</label>
-              <input type="text" id="report-landmark" placeholder="e.g. Opposite Central Bank or Metro Pillar 42" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+
+            <!-- Dynamic Institution Dropdown -->
+            <div id="institution-select-container" style="display:none; margin-top:1rem;">
+              <label style="font-size:0.88rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Select Campus or Facility:</label>
+              <select id="report-institution-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
+                <option value="">Select Campus...</option>
+              </select>
             </div>
           </div>
 
-          <div>
-            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Municipal Ward / Zone *</label>
-            <select id="report-ward" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
-              <option value="Ward 4 - Indiranagar">Ward 4 - Indiranagar</option>
-              <option value="Ward 7 - Koramangala">Ward 7 - Koramangala</option>
-              <option value="Ward 2 - Malleshwaram">Ward 2 - Malleshwaram</option>
-              <option value="Ward 11 - Whitefield">Ward 11 - Whitefield</option>
-              <option value="Ward 5 - Jayanagar">Ward 5 - Jayanagar</option>
-              <option value="Ward 1 - Majestic">Ward 1 - Majestic</option>
-              <option value="Ward 9 - Rajajinagar">Ward 9 - Rajajinagar</option>
-              <option value="Ward 3 - HSR Layout">Ward 3 - HSR Layout</option>
-            </select>
+          <!-- Issue Title & Description -->
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
+              Issue Title *
+            </label>
+            <input type="text" id="report-title" required placeholder="e.g. Deep pothole with exposed gravel or sparking lab ceiling fan" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none;" />
+          </div>
+
+          <div style="margin-bottom:1.75rem;">
+            <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
+              Describe the problem in detail *
+            </label>
+            <textarea id="report-description" required rows="3" placeholder="Provide details such as room/pole number, safety hazards, leakage severity, or public disruption..." style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none; resize:vertical;"></textarea>
+          </div>
+
+          <!-- REAL-TIME INTERACTIVE AI ASSISTANT PANEL -->
+          <div id="ai-assistant-preview" style="display:none; background:var(--sage-50); border:1px solid var(--sage-200); border-radius:var(--radius-md); padding:1.25rem; margin-bottom:1.75rem;">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+              <span style="font-size:1.2rem;">🧠</span>
+              <strong style="font-size:0.92rem; color:var(--navy-900);">CivicAI Real-Time Analysis</strong>
+              <span id="ai-pred-confidence" class="badge" style="background:var(--sage-200); color:var(--sage-700); font-size:0.72rem; margin-left:auto;">95% Confidence</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:0.75rem;">
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Predicted Category</div>
+                <strong id="ai-pred-category" style="font-size:0.92rem; color:var(--teal-600);">Roads & Potholes</strong>
+              </div>
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Assessed Priority</div>
+                <span id="ai-pred-priority" class="badge badge-medium">Medium</span>
+              </div>
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Recommended Field Squad</div>
+                <strong id="ai-rec-team" style="font-size:0.9rem; color:var(--navy-900);">Rapid Road Maintenance Squad</strong>
+              </div>
+            </div>
+
+            <div id="ai-pred-reason" style="font-size:0.82rem; color:var(--text-muted); font-style:italic;">
+              ML model evaluated civic safety criteria and contextual patterns.
+            </div>
+
+            <!-- Duplicate Alert Notice -->
+            <div id="ai-dup-alert" style="display:none; align-items:flex-start; gap:0.75rem; background:var(--amber-100); border:1px solid rgba(229, 154, 38, 0.3); border-radius:var(--radius-sm); padding:0.75rem; margin-top:0.75rem;"></div>
+          </div>
+
+          <!-- Category Selection -->
+          <div style="margin-bottom:2.25rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <label style="font-size:1.05rem; font-weight:700; color:var(--navy-900);">
+                Select Category (or allow AI auto-sync)
+              </label>
+              <label style="font-size:0.8rem; color:var(--teal-600); display:flex; align-items:center; gap:0.35rem; cursor:pointer;">
+                <input type="checkbox" id="auto-sync-category" checked /> Auto-sync with AI prediction
+              </label>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Roads & Potholes" checked style="margin-right:0.3rem;" /> Roads & Potholes
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Garbage & Waste" style="margin-right:0.3rem;" /> Garbage & Waste
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Drainage & Sewage" style="margin-right:0.3rem;" /> Drainage & Sewage
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Water Supply" style="margin-right:0.3rem;" /> Water Supply
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Electrical" style="margin-right:0.3rem;" /> Electrical
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Streetlights" style="margin-right:0.3rem;" /> Streetlights
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Public Infrastructure" style="margin-right:0.3rem;" /> Public Infrastructure
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Traffic & Road Signs" style="margin-right:0.3rem;" /> Traffic & Signs
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Parks & Public Spaces" style="margin-right:0.3rem;" /> Parks & Public Spaces
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="School Issues" style="margin-right:0.3rem;" /> School Issues
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="College Issues" style="margin-right:0.3rem;" /> College Issues
+              </label>
+              <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+                <input type="radio" name="category" value="Office/Workplace Issues" style="margin-right:0.3rem;" /> Office Issues
+              </label>
+            </div>
+          </div>
+
+          <div style="text-align:right;">
+            <button type="button" class="btn btn-primary btn-lg" onclick="nextWizardStep()">
+              <span>Next: Pinpoint Location</span>
+              <span>&rarr;</span>
+            </button>
           </div>
         </div>
 
-        <!-- Photo Evidence Upload -->
-        <div style="margin-bottom:2rem;">
-          <label style="display:block; font-size:1.1rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
-            4. Upload Photo Evidence
-          </label>
-          <div id="photo-dropzone" style="border:2px dashed var(--sage-200); background:var(--sage-50); border-radius:var(--radius-md); padding:1.75rem; text-align:center; cursor:pointer;">
-            <input type="file" id="report-photo-input" accept="image/*" style="display:none;" />
-            <div style="font-size:2rem; margin-bottom:0.5rem;">📷</div>
-            <div style="font-size:0.92rem; font-weight:600; color:var(--navy-900);">Click or drag photo here to attach proof</div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Supports JPG, PNG up to 10MB</div>
-            <button type="button" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;" onclick="document.getElementById('report-photo-input').click()">Browse Image</button>
+        <!-- STEP 2: Locate the Issue -->
+        <div id="wizard-step-2" class="wizard-step-section" style="display:none;">
+          <div style="margin-bottom:2rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+              <label style="font-size:1.15rem; font-weight:700; color:var(--navy-900);">
+                2. Location & GPS Pin Drop
+              </label>
+              <button type="button" id="report-use-gps-btn" class="btn btn-secondary btn-sm" style="font-size:0.82rem;">
+                <span>📍 Use My GPS Location</span>
+              </button>
+            </div>
+
+            <!-- Interactive Leaflet Map Container -->
+            <div id="report-map" style="height:300px; border-radius:var(--radius-md); border:1px solid var(--border-light); margin-bottom:0.75rem;"></div>
+            <div id="report-coords-display" style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.25rem;">
+              Drag pin or tap map to refine position
+            </div>
+
+            <input type="hidden" id="report-lat" value="12.9716" />
+            <input type="hidden" id="report-lng" value="77.5946" />
+
+            <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+              <div>
+                <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Street Address / Building *</label>
+                <input type="text" id="report-address" required placeholder="e.g. 100 Feet Road, near 12th Main" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 0.9rem; font-size:0.92rem; font-family:var(--font-body);" />
+              </div>
+              <div>
+                <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Landmark (Optional)</label>
+                <input type="text" id="report-landmark" placeholder="e.g. Opposite Central Bank or Metro Pillar 42" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 0.9rem; font-size:0.92rem; font-family:var(--font-body);" />
+              </div>
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Municipal Ward / Zone *</label>
+              <select id="report-ward" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 0.9rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
+                <option value="Ward 4 - Indiranagar">Ward 4 - Indiranagar</option>
+                <option value="Ward 7 - Koramangala">Ward 7 - Koramangala</option>
+                <option value="Ward 2 - Malleshwaram">Ward 2 - Malleshwaram</option>
+                <option value="Ward 11 - Whitefield">Ward 11 - Whitefield</option>
+                <option value="Ward 5 - Jayanagar">Ward 5 - Jayanagar</option>
+                <option value="Ward 1 - Majestic">Ward 1 - Majestic</option>
+                <option value="Ward 9 - Rajajinagar">Ward 9 - Rajajinagar</option>
+                <option value="Ward 3 - HSR Layout">Ward 3 - HSR Layout</option>
+              </select>
+            </div>
           </div>
 
-          <div id="photo-preview-container" style="display:none; margin-top:0.75rem; text-align:center;">
-            <img id="photo-preview-img" style="max-height:160px; border-radius:var(--radius-md); border:1px solid var(--border-light); box-shadow:var(--shadow-sm);" />
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn btn-secondary" onclick="prevWizardStep()">
+              <span>&larr; Back</span>
+            </button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="nextWizardStep()">
+              <span>Next: Attach Evidence</span>
+              <span>&rarr;</span>
+            </button>
           </div>
         </div>
 
-        <!-- Optional Reporter Info -->
-        <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:2rem;">
-          <div>
-            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Your Name (Optional)</label>
-            <input type="text" id="report-name" placeholder="Citizen or Staff Name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+        <!-- STEP 3: Attach Evidence & Reporter Info -->
+        <div id="wizard-step-3" class="wizard-step-section" style="display:none;">
+          <div style="margin-bottom:2rem;">
+            <label style="display:block; font-size:1.15rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+              3. Upload Photo Evidence
+            </label>
+            <div id="photo-dropzone" style="border:2px dashed var(--sage-200); background:var(--sage-50); border-radius:var(--radius-md); padding:2rem; text-align:center; cursor:pointer;">
+              <input type="file" id="report-photo-input" accept="image/*" style="display:none;" />
+              <div style="font-size:2.2rem; margin-bottom:0.5rem;">📷</div>
+              <div style="font-size:0.95rem; font-weight:600; color:var(--navy-900);">Click or drag photo here to attach proof</div>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Supports JPG, PNG up to 10MB</div>
+              <button type="button" class="btn btn-secondary btn-sm" style="margin-top:0.85rem;" onclick="document.getElementById('report-photo-input').click()">Browse Image</button>
+            </div>
+
+            <div id="photo-preview-container" style="display:none; margin-top:1rem; text-align:center;">
+              <img id="photo-preview-img" style="max-height:180px; border-radius:var(--radius-md); border:1px solid var(--border-light); box-shadow:var(--shadow-sm);" />
+            </div>
           </div>
-          <div>
-            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Phone / Contact (Optional for SMS updates)</label>
-            <input type="tel" id="report-phone" placeholder="+91 98450 00000" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+
+          <!-- Reporter Contact Info -->
+          <div style="margin-bottom:2.5rem;">
+            <label style="display:block; font-size:1.15rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+              Reporter Contact (Optional)
+            </label>
+            <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+              <div>
+                <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Your Name (Optional)</label>
+                <input type="text" id="report-name" placeholder="Citizen or Staff Name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 0.9rem; font-size:0.92rem; font-family:var(--font-body);" />
+              </div>
+              <div>
+                <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Phone / Contact (Optional for SMS updates)</label>
+                <input type="tel" id="report-phone" placeholder="+91 98450 00000" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 0.9rem; font-size:0.92rem; font-family:var(--font-body);" />
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn btn-secondary" onclick="prevWizardStep()">
+              <span>&larr; Back</span>
+            </button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="nextWizardStep()">
+              <span>Next: Review & Submit</span>
+              <span>&rarr;</span>
+            </button>
           </div>
         </div>
 
-        <button type="submit" id="report-submit-btn" class="btn btn-primary btn-lg" style="width:100%; font-size:1.05rem;">
-          Submit Issue Report
-        </button>
+        <!-- STEP 4: Review & Final Submit -->
+        <div id="wizard-step-4" class="wizard-step-section" style="display:none;">
+          <div style="margin-bottom:2rem;">
+            <label style="display:block; font-size:1.15rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+              4. Review & Confirm Submission
+            </label>
+            
+            <div class="card" style="padding:1.5rem; background:var(--bg-secondary); border:1px solid var(--border-light); margin-bottom:1.5rem;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.25rem;">
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Issue Title</div>
+                  <strong id="rev-title" style="font-size:1.05rem; color:var(--navy-900);">—</strong>
+                </div>
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Category</div>
+                  <strong id="rev-category" style="font-size:1.05rem; color:var(--teal-600);">—</strong>
+                </div>
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Domain / Zone</div>
+                  <div id="rev-location" style="font-size:0.92rem; color:var(--navy-900);">—</div>
+                </div>
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Street Address</div>
+                  <div id="rev-address" style="font-size:0.92rem; color:var(--navy-900);">—</div>
+                </div>
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Reporter</div>
+                  <div id="rev-reporter" style="font-size:0.92rem; color:var(--text-muted);">Anonymous Citizen</div>
+                </div>
+                <div>
+                  <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">AI Pre-Analysis Status</div>
+                  <span class="badge badge-status-analyzed">Ready for Automated Triage</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+              By submitting this report, CivicAI's NLP engine will immediately catalog the issue, calculate urgency priority, check for nearby duplicates, and route to the active maintenance crew.
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button type="button" class="btn btn-secondary" onclick="prevWizardStep()">
+              <span>&larr; Back</span>
+            </button>
+            <button type="submit" id="report-submit-btn" class="btn btn-primary btn-lg" style="min-width:240px;">
+              <span>Submit Issue Report</span>
+              <span>✓</span>
+            </button>
+          </div>
+        </div>
+
       </form>
     </div>
   </section>
@@ -415,6 +923,7 @@
   <section id="tab-track" class="tab-content">
     <div class="container" style="padding-top:2.5rem; max-width:880px;">
       <div style="text-align:center; margin-bottom:2rem;">
+        <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.35rem;">Public Transparency</span>
         <h2 style="font-size:2.2rem; margin-bottom:0.5rem; color:var(--navy-900);">Track Issue Resolution</h2>
         <p style="font-size:1.05rem; color:var(--text-muted);">Real-time status milestones, assigned squad updates, and verified before/after proof.</p>
       </div>
@@ -459,7 +968,7 @@
               <span id="track-priority-badge" class="badge badge-critical">Critical</span>
             </div>
             <div style="font-size:0.85rem; color:var(--text-muted);">
-              <span id="track-created-date">Reported: Sep 17, 2026</span> • <span id="track-category-pill" style="font-weight:600; color:var(--teal-600);">College Issues</span>
+              <span id="track-created-date">Reported: Sep 17, 2026</span> &bull; <span id="track-category-pill" style="font-weight:600; color:var(--teal-600);">College Issues</span>
               <span id="track-institution-tag" class="badge" style="display:none; margin-left:0.5rem; background:var(--sage-100); color:var(--sage-700);">🏛 Institution</span>
             </div>
           </div>
@@ -534,6 +1043,7 @@
     <div class="container" style="padding-top:2rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
         <div>
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.25rem;">Spatial Intelligence</span>
           <h2 style="font-size:2rem; color:var(--navy-900);">GIS Spatial Command Center</h2>
           <p style="font-size:0.95rem; color:var(--text-muted);">Live municipal map, severity heat zones, and connected institution telemetry.</p>
         </div>
@@ -632,6 +1142,7 @@
     <div class="container" style="padding-top:2rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
         <div>
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.25rem;">Dedicated Campus Management</span>
           <h2 style="font-size:2rem; color:var(--navy-900);">Connected Institutions Directory</h2>
           <p style="font-size:0.95rem; color:var(--text-muted);">Dedicated maintenance dockets for universities, schools, healthcare, and corporate campuses.</p>
         </div>
@@ -657,6 +1168,7 @@
     <div class="container" style="padding-top:2rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
         <div>
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.25rem;">Rapid Deployment</span>
           <h2 style="font-size:2rem; color:var(--navy-900);">Field Operations Dispatch</h2>
           <p style="font-size:0.95rem; color:var(--text-muted);">Active work orders, squad workload routing, and on-site repair proof submission.</p>
         </div>
@@ -697,6 +1209,7 @@
     <div class="container" style="padding-top:2rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
         <div>
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.25rem;">Materials & Logistics</span>
           <h2 style="font-size:2rem; color:var(--navy-900);">Asset & Material Resources</h2>
           <p style="font-size:0.95rem; color:var(--text-muted);">Stock levels for bitumen, LED streetlights, drainage components, and institutional parts.</p>
         </div>
@@ -741,6 +1254,7 @@
     <div class="container" style="padding-top:2rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
         <div>
+          <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600); display:block; margin-bottom:0.25rem;">Executive Overview</span>
           <h2 style="font-size:2rem; color:var(--navy-900);">Municipal Executive Dashboard</h2>
           <p style="font-size:0.95rem; color:var(--text-muted);">Comprehensive civic KPIs, ML category distributions, ward hotspots, and AI advisories.</p>
         </div>
@@ -865,6 +1379,71 @@
     </div>
   </section>
 
+  <!-- ==================== FOOTER ==================== -->
+  <footer style="background:#FFFFFF; border-top:1px solid var(--border-light); padding:4rem 0 2rem; margin-top:4rem;">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap:2.5rem; margin-bottom:3rem;" class="footer-grid">
+        <!-- Brand Column -->
+        <div>
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:1rem;">
+            <div style="width:28px; height:28px; border-radius:50%; background:var(--navy-900); display:flex; align-items:center; justify-content:center; color:#FFF; font-weight:800; font-size:14px;">C</div>
+            <span style="font-size:1.3rem; font-weight:800; color:var(--navy-900); font-family:var(--font-heading);">CivicAI</span>
+            <span class="badge" style="background:var(--sage-100); color:var(--sage-700); font-size:0.68rem;">v2.0 OS</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.6; max-width:320px; margin-bottom:1.25rem;">
+            AI-powered civic issue reporting and resolution platform for city roads, residential areas, schools, universities, workplaces, and public facilities.
+          </p>
+          <div style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--sage-50); border:1px solid var(--sage-200); padding:0.35rem 0.75rem; border-radius:var(--radius-full); font-size:0.78rem; color:var(--sage-700); font-weight:600;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#22C55E; display:inline-block;"></span>
+            <span>All Municipal Systems Operational</span>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div>
+          <h4 style="font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:1rem;">Platform</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.6rem; font-size:0.88rem;">
+            <li><a href="#" onclick="switchTab('home')" style="color:var(--text-muted); text-decoration:none;">Home Overview</a></li>
+            <li><a href="#" onclick="switchTab('report')" style="color:var(--text-muted); text-decoration:none;">Report an Issue</a></li>
+            <li><a href="#" onclick="switchTab('track')" style="color:var(--text-muted); text-decoration:none;">Track Resolution</a></li>
+            <li><a href="#" onclick="switchTab('gis')" style="color:var(--text-muted); text-decoration:none;">GIS Command Center</a></li>
+          </ul>
+        </div>
+
+        <!-- Operations Links -->
+        <div>
+          <h4 style="font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:1rem;">Operations</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.6rem; font-size:0.88rem;">
+            <li><a href="#" onclick="switchTab('institutions')" style="color:var(--text-muted); text-decoration:none;">Institutions Directory</a></li>
+            <li><a href="#" onclick="switchTab('field-ops')" style="color:var(--text-muted); text-decoration:none;">Field Squad Dispatch</a></li>
+            <li><a href="#" onclick="switchTab('inventory')" style="color:var(--text-muted); text-decoration:none;">Material Resources</a></li>
+            <li><a href="#" onclick="switchTab('dashboard')" style="color:var(--text-muted); text-decoration:none;">Analytics & AI</a></li>
+          </ul>
+        </div>
+
+        <!-- System Architecture -->
+        <div>
+          <h4 style="font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:1rem;">Civic Tech Stack</h4>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.6rem; font-size:0.88rem; color:var(--text-muted);">
+            <li>FastAPI High-Performance Backend</li>
+            <li>Scikit-Learn TF-IDF + Naive Bayes</li>
+            <li>Leaflet OpenStreetMap GIS</li>
+            <li>Haversine Geodetic Duplicate Engine</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--border-light); padding-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:0.82rem; color:var(--text-light);">
+        <div>&copy; 2026 CivicAI Platform. Designed for municipal & institutional governance.</div>
+        <div style="display:flex; gap:1.25rem;">
+          <span>Open Civic Standard</span>
+          <span>Privacy & Citizen Safety</span>
+          <span>Real-time Telemetry</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <!-- ==================== MODALS ==================== -->
 
   <!-- Report Success Modal -->
@@ -923,7 +1502,7 @@
 
         <div style="margin-bottom:1rem;">
           <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Resolution Proof Image URL</label>
-          <input type="text" id="resolve-photo-input" value="/static/uploads/sample_resolved.jpg" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+          <input type="text" id="resolve-photo-input" value="/assets/sample_resolved.jpg" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
         </div>
 
         <div style="margin-bottom:1.5rem; background:var(--bg-secondary); padding:1rem; border-radius:var(--radius-md);">

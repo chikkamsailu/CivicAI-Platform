@@ -1,26 +1,49 @@
 /* ==========================================================================
-   CivicAI - Responsive & Mobile-First Media Rules
+   CivicAI - Responsive Media Rules (Mobile First & Tablet Optimization)
    ========================================================================== */
 
-/* Mobile Hamburger Menu */
 .mobile-menu-toggle {
   display: none;
   background: none;
   border: none;
   color: var(--navy-900);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   cursor: pointer;
   padding: 0.5rem;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1080px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .hero-cinematic-panel {
+    height: 440px !important;
+  }
+
+  .gis-split-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gis-map-container {
+    height: 500px !important;
+    min-height: 500px !important;
+  }
+
+  .dashboard-kpi-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 900px) {
   .mobile-menu-toggle {
     display: block;
   }
 
   .nav-links {
     position: fixed;
-    top: 72px;
+    top: 76px;
     left: 0;
     right: 0;
     background: #FFFFFF;
@@ -45,44 +68,46 @@
     justify-content: flex-start;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr !important;
-    gap: 2.5rem !important;
-  }
-
-  .hero-visual-card {
-    order: -1;
-  }
-
-  .gis-split-layout {
-    grid-template-columns: 1fr !important;
-    height: auto !important;
-  }
-
-  .gis-map-container {
-    height: 480px !important;
-  }
-
-  .dashboard-kpi-grid {
+  .stats-ticker-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
-  .stats-ticker-grid {
+  .categories-showcase-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .institutions-showcase-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
 @media (max-width: 640px) {
-  h1 { font-size: 2.1rem; }
-  h2 { font-size: 1.65rem; }
-  h3 { font-size: 1.25rem; }
+  h1 { font-size: 2.25rem !important; }
+  h2 { font-size: 1.75rem !important; }
+  h3 { font-size: 1.3rem !important; }
 
   .container {
-    padding: 0 1rem;
+    padding: 0 1.25rem;
+  }
+
+  .hero-cinematic-panel {
+    height: 300px !important;
+  }
+
+  .hero-telemetry-badge {
+    display: none !important;
+  }
+
+  .categories-showcase-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .institutions-showcase-grid {
+    grid-template-columns: 1fr !important;
   }
 
   .dashboard-kpi-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 
   .stats-ticker-grid {
@@ -97,10 +122,6 @@
     display: none;
   }
 
-  .wizard-options-grid {
-    grid-template-columns: 1fr !important;
-  }
-
   .form-row-2 {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
@@ -108,9 +129,18 @@
 
   .gis-map-container {
     height: 380px !important;
+    min-height: 380px !important;
+  }
+
+  .wizard-progress-bar {
+    gap: 0.25rem;
+  }
+
+  .wizard-step-label {
+    display: none;
   }
 
   .modal-card {
-    padding: 1.25rem;
+    padding: 1.5rem;
   }
 }
