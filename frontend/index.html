@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CivicAI - AI-Powered Civic & Institutional Issue Resolution Platform</title>
+  <meta name="description" content="A universal AI-powered issue reporting and resolution platform for cities, communities, schools, universities, workplaces, and public institutions." />
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet GIS Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand-logo" onclick="switchTab('home')">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" fill="#111D2B" />
+          <path d="M9 16C9 12.134 12.134 9 16 9C19.866 9 23 12.134 23 16" stroke="#448974" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M12 16C12 13.7909 13.7909 12 16 12C18.2091 12 20 13.7909 20 16" stroke="#26717C" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="16" cy="16" r="2.5" fill="#E59A26" />
+          <path d="M16 19V23" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>CivicAI</span>
+        <span class="brand-badge">CIVIC TECH OS</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><button class="nav-item-btn active" data-tab="home">Home</button></li>
+        <li><button class="nav-item-btn" data-tab="report">Report an Issue</button></li>
+        <li><button class="nav-item-btn" data-tab="track">Track Complaint</button></li>
+        <li><button class="nav-item-btn" data-tab="gis">GIS Command Center</button></li>
+        <li><button class="nav-item-btn" data-tab="institutions">Institutions</button></li>
+        <li><button class="nav-item-btn" data-tab="field-ops">Field Operations</button></li>
+        <li><button class="nav-item-btn" data-tab="inventory">Resources</button></li>
+        <li><button class="nav-item-btn" data-tab="dashboard">Analytics & AI</button></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn btn-primary btn-sm" data-action="report-issue">+ Report Issue</button>
+        <button class="mobile-menu-toggle" aria-label="Toggle Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== TAB: HOME / HERO ==================== -->
+  <main id="tab-home" class="tab-content active">
+    <section class="hero-section" style="position:relative; padding: 4rem 0 3rem; overflow:hidden;">
+      <div class="wave-canvas-container">
+        <canvas id="hero-wave-canvas"></canvas>
+      </div>
+
+      <div class="container" style="position:relative; z-index:1;">
+        <div class="hero-grid" style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:3.5rem; align-items:center;">
+          <div>
+            <div style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--sage-100); border:1px solid var(--sage-200); padding:0.35rem 0.85rem; border-radius:var(--radius-full); margin-bottom:1.5rem;">
+              <span style="width:8px; height:8px; border-radius:50%; background:var(--sage-500); display:inline-block;"></span>
+              <span style="font-size:0.82rem; font-weight:700; color:var(--sage-700); text-transform:uppercase; letter-spacing:0.05em;">Universal Civic & Institutional Resolution</span>
+            </div>
+
+            <h1 style="margin-bottom:1.25rem; color:var(--navy-900); font-weight:800;">
+              Report problems.<br />
+              Connect communities.<br />
+              <span style="background: linear-gradient(135deg, #111D2B 0%, #26717C 50%, #448974 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Improve places.</span>
+            </h1>
+
+            <p style="font-size:1.15rem; color:var(--text-muted); margin-bottom:2rem; max-width:560px; line-height:1.6;">
+              An AI-powered platform that turns everyday civic and institutional issues into actionable solutions across city roads, schools, universities, workplaces, and healthcare facilities.
+            </p>
+
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2.5rem;">
+              <button class="btn btn-primary btn-lg" data-action="report-issue">
+                <span>REPORT AN ISSUE</span>
+                <span>→</span>
+              </button>
+              <button class="btn btn-secondary btn-lg" data-action="explore-platform">
+                <span>EXPLORE CIVICAI</span>
+              </button>
+            </div>
+
+            <!-- Quick Track Input Bar -->
+            <div class="card" style="padding:1rem 1.25rem; background:#FFFFFF; max-width:520px; box-shadow:var(--shadow-sm); border:1px solid var(--border-light);">
+              <form id="hero-quick-track-form" style="display:flex; gap:0.5rem;">
+                <input type="text" id="hero-track-id-input" placeholder="Enter Reference ID (e.g. CIVIC-2026-1001)" style="flex:1; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.6rem 0.9rem; font-size:0.9rem; font-family:var(--font-body); outline:none;" />
+                <button type="submit" class="btn btn-secondary btn-sm" style="padding:0.6rem 1rem;">Track Status</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Hero Visual Banner Card -->
+          <div class="hero-visual-card animate-float" style="position:relative;">
+            <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-lg); border:1px solid var(--border-light); background:#FFFFFF;">
+              <img src="/assets/civic_hero.jpg" alt="CivicAI Modern Cityscape" style="width:100%; height:auto; display:block; object-fit:cover;" />
+              <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent, rgba(17, 29, 43, 0.85)); padding:1.25rem; color:#FFFFFF;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <h4 style="color:#FFFFFF; font-size:1.1rem; margin-bottom:0.2rem;">Integrated City & Campus Grid</h4>
+                    <p style="color:rgba(255,255,255,0.8); font-size:0.82rem;">AI classification, dispatch routing & on-site tracking</p>
+                  </div>
+                  <span class="badge" style="background:rgba(255,255,255,0.2); color:#FFFFFF; backdrop-filter:blur(4px);">Live AI Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Flow: REPORT -> AI -> ACTION -> RESOLUTION -->
+        <div style="margin-top:4rem;">
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal-600);">Universal Resolution Pipeline</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:1.25rem;" class="stats-ticker-grid">
+            <div class="card" style="padding:1.25rem; text-align:center;">
+              <div style="font-size:1.75rem; margin-bottom:0.5rem;">📝</div>
+              <h4 style="font-size:1rem; margin-bottom:0.25rem;">1. Report Issue</h4>
+              <p style="font-size:0.82rem;">Citizen or student logs issue with GPS & photo evidence.</p>
+            </div>
+            <div class="card" style="padding:1.25rem; text-align:center;">
+              <div style="font-size:1.75rem; margin-bottom:0.5rem;">🧠</div>
+              <h4 style="font-size:1rem; margin-bottom:0.25rem;">2. AI Intelligence</h4>
+              <p style="font-size:0.82rem;">ML predicts category, priority & checks for duplicates.</p>
+            </div>
+            <div class="card" style="padding:1.25rem; text-align:center;">
+              <div style="font-size:1.75rem; margin-bottom:0.5rem;">🚜</div>
+              <h4 style="font-size:1rem; margin-bottom:0.25rem;">3. Field Action</h4>
+              <p style="font-size:0.82rem;">Workload-balanced dispatch to specialized maintenance crew.</p>
+            </div>
+            <div class="card" style="padding:1.25rem; text-align:center;">
+              <div style="font-size:1.75rem; margin-bottom:0.5rem;">✅</div>
+              <h4 style="font-size:1rem; margin-bottom:0.25rem;">4. Resolution</h4>
+              <p style="font-size:0.82rem;">Repair documented with photo evidence & verified sign-off.</p>
+            </div>
+          </div>
+          <div class="journey-flow-line" style="margin-top:1rem;"></div>
+        </div>
+
+        <!-- Live Platform Stats Ticker -->
+        <div style="margin-top:3.5rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1.5rem; text-align:center;" class="stats-ticker-grid">
+            <div>
+              <div id="stat-total-reports" style="font-size:2.2rem; font-weight:800; color:var(--navy-900); font-family:var(--font-heading);">24</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Total Civic Reports</div>
+            </div>
+            <div>
+              <div id="stat-active-resolving" style="font-size:2.2rem; font-weight:800; color:var(--amber-500); font-family:var(--font-heading);">10</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Active In Resolution</div>
+            </div>
+            <div>
+              <div id="stat-resolved-rate" style="font-size:2.2rem; font-weight:800; color:var(--green-500); font-family:var(--font-heading);">58%</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Resolution Rate</div>
+            </div>
+            <div>
+              <div id="stat-avg-sla" style="font-size:2.2rem; font-weight:800; color:var(--teal-500); font-family:var(--font-heading);">18.5h</div>
+              <div style="font-size:0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-top:0.2rem;">Avg. Resolution Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== TAB: REPORT AN ISSUE ==================== -->
+  <section id="tab-report" class="tab-content">
+    <div class="container" style="padding-top:2.5rem; max-width:960px;">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <h2 style="font-size:2.2rem; margin-bottom:0.5rem; color:var(--navy-900);">Report an Issue</h2>
+        <p style="font-size:1.05rem; color:var(--text-muted);">Real-time AI classification, spatial duplicate scanning, and direct squad dispatch.</p>
+      </div>
+
+      <form id="issue-report-form" class="card" style="padding:2.5rem;">
+        
+        <!-- STEP 1: Where is the issue? -->
+        <div style="margin-bottom:2.25rem;">
+          <label style="display:block; font-size:1.1rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+            1. Where is the issue located?
+          </label>
+          <div class="wizard-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:0.75rem;">
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="Public / Community" checked style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛣</div>
+              <div style="font-size:0.85rem; font-weight:600;">Public / Road</div>
+            </label>
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="College / University" style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🎓</div>
+              <div style="font-size:0.85rem; font-weight:600;">College / Univ</div>
+            </label>
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="School" style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏫</div>
+              <div style="font-size:0.85rem; font-weight:600;">School</div>
+            </label>
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="Office / Workplace" style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏢</div>
+              <div style="font-size:0.85rem; font-weight:600;">Workplace</div>
+            </label>
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="Hospital / Healthcare" style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏥</div>
+              <div style="font-size:0.85rem; font-weight:600;">Hospital</div>
+            </label>
+            <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+              <input type="radio" name="location_type" value="Public Institution" style="display:none;" />
+              <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏛</div>
+              <div style="font-size:0.85rem; font-weight:600;">Public Facility</div>
+            </label>
+          </div>
+
+          <!-- Dynamic Institution Dropdown -->
+          <div id="institution-select-container" style="display:none; margin-top:1rem;">
+            <label style="font-size:0.88rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Select Campus or Facility:</label>
+            <select id="report-institution-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
+              <option value="">Select Campus...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 2: What is the problem? -->
+        <div style="margin-bottom:2.25rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <label style="font-size:1.1rem; font-weight:700; color:var(--navy-900);">
+              2. What is the category?
+            </label>
+            <label style="font-size:0.8rem; color:var(--teal-600); display:flex; align-items:center; gap:0.35rem; cursor:pointer;">
+              <input type="checkbox" id="auto-sync-category" checked /> Auto-sync with AI prediction
+            </label>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Roads & Potholes" checked style="margin-right:0.3rem;" /> Roads & Potholes
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Garbage & Waste" style="margin-right:0.3rem;" /> Garbage & Waste
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Drainage & Sewage" style="margin-right:0.3rem;" /> Drainage & Sewage
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Water Supply" style="margin-right:0.3rem;" /> Water Supply
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Electrical" style="margin-right:0.3rem;" /> Electrical
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Streetlights" style="margin-right:0.3rem;" /> Streetlights
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Public Infrastructure" style="margin-right:0.3rem;" /> Public Infrastructure
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Traffic & Road Signs" style="margin-right:0.3rem;" /> Traffic & Road Signs
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Parks & Public Spaces" style="margin-right:0.3rem;" /> Parks & Public Spaces
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="School Issues" style="margin-right:0.3rem;" /> School Issues
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="College Issues" style="margin-right:0.3rem;" /> College Issues
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Office/Workplace Issues" style="margin-right:0.3rem;" /> Office/Workplace Issues
+            </label>
+            <label class="badge badge-status-submitted" style="padding:0.45rem 0.85rem; font-size:0.85rem; cursor:pointer;">
+              <input type="radio" name="category" value="Sanitation" style="margin-right:0.3rem;" /> Sanitation
+            </label>
+          </div>
+        </div>
+
+        <!-- Issue Title & Description -->
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
+            Issue Title *
+          </label>
+          <input type="text" id="report-title" required placeholder="e.g. Broken ceiling fan sparking in Engineering Block C" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none;" />
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-size:0.95rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">
+            Describe the problem in detail *
+          </label>
+          <textarea id="report-description" required rows="3" placeholder="Provide details such as exact room/pole number, safety hazards, leakage severity, or public disruption..." style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none; resize:vertical;"></textarea>
+        </div>
+
+        <!-- REAL-TIME INTERACTIVE AI ASSISTANT PANEL -->
+        <div id="ai-assistant-preview" style="display:none; background:var(--sage-50); border:1px solid var(--sage-200); border-radius:var(--radius-md); padding:1.25rem; margin-bottom:2rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+            <span style="font-size:1.2rem;">🧠</span>
+            <strong style="font-size:0.92rem; color:var(--navy-900);">CivicAI Real-Time Analysis</strong>
+            <span id="ai-pred-confidence" class="badge" style="background:var(--sage-200); color:var(--sage-700); font-size:0.72rem; margin-left:auto;">95% Confidence</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:0.75rem;">
+            <div>
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Predicted Category</div>
+              <strong id="ai-pred-category" style="font-size:0.92rem; color:var(--teal-600);">Roads & Potholes</strong>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Assessed Priority</div>
+              <span id="ai-pred-priority" class="badge badge-medium">Medium</span>
+            </div>
+            <div>
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted);">Recommended Field Squad</div>
+              <strong id="ai-rec-team" style="font-size:0.9rem; color:var(--navy-900);">Rapid Road Maintenance Squad</strong>
+            </div>
+          </div>
+
+          <div id="ai-pred-reason" style="font-size:0.82rem; color:var(--text-muted); font-style:italic;">
+            ML model evaluated civic safety criteria and contextual patterns.
+          </div>
+
+          <!-- Duplicate Alert Notice -->
+          <div id="ai-dup-alert" style="display:none; align-items:flex-start; gap:0.75rem; background:var(--amber-100); border:1px solid rgba(229, 154, 38, 0.3); border-radius:var(--radius-sm); padding:0.75rem; margin-top:0.75rem;"></div>
+        </div>
+
+        <!-- Location & Map Picker -->
+        <div style="margin-bottom:2rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <label style="font-size:1.1rem; font-weight:700; color:var(--navy-900);">
+              3. Location & GPS Pin Drop
+            </label>
+            <button type="button" id="report-use-gps-btn" class="btn btn-secondary btn-sm" style="font-size:0.8rem;">
+              <span>📍 Use My GPS Location</span>
+            </button>
+          </div>
+
+          <!-- Interactive Leaflet Map -->
+          <div id="report-map" style="height:260px; border-radius:var(--radius-md); border:1px solid var(--border-light); margin-bottom:0.75rem;"></div>
+          <div id="report-coords-display" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">
+            Drag pin or tap map to refine position
+          </div>
+
+          <input type="hidden" id="report-lat" value="12.9716" />
+          <input type="hidden" id="report-lng" value="77.5946" />
+
+          <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+            <div>
+              <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Street Address / Building *</label>
+              <input type="text" id="report-address" required placeholder="e.g. 100 Feet Road, near 12th Main" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+            </div>
+            <div>
+              <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Landmark (Optional)</label>
+              <input type="text" id="report-landmark" placeholder="e.g. Opposite Central Bank or Metro Pillar 42" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+            </div>
+          </div>
+
+          <div>
+            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Municipal Ward / Zone *</label>
+            <select id="report-ward" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+              <option value="Ward 4 - Indiranagar">Ward 4 - Indiranagar</option>
+              <option value="Ward 7 - Koramangala">Ward 7 - Koramangala</option>
+              <option value="Ward 2 - Malleshwaram">Ward 2 - Malleshwaram</option>
+              <option value="Ward 11 - Whitefield">Ward 11 - Whitefield</option>
+              <option value="Ward 5 - Jayanagar">Ward 5 - Jayanagar</option>
+              <option value="Ward 1 - Majestic">Ward 1 - Majestic</option>
+              <option value="Ward 9 - Rajajinagar">Ward 9 - Rajajinagar</option>
+              <option value="Ward 3 - HSR Layout">Ward 3 - HSR Layout</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Photo Evidence Upload -->
+        <div style="margin-bottom:2rem;">
+          <label style="display:block; font-size:1.1rem; font-weight:700; color:var(--navy-900); margin-bottom:0.75rem;">
+            4. Upload Photo Evidence
+          </label>
+          <div id="photo-dropzone" style="border:2px dashed var(--sage-200); background:var(--sage-50); border-radius:var(--radius-md); padding:1.75rem; text-align:center; cursor:pointer;">
+            <input type="file" id="report-photo-input" accept="image/*" style="display:none;" />
+            <div style="font-size:2rem; margin-bottom:0.5rem;">📷</div>
+            <div style="font-size:0.92rem; font-weight:600; color:var(--navy-900);">Click or drag photo here to attach proof</div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Supports JPG, PNG up to 10MB</div>
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;" onclick="document.getElementById('report-photo-input').click()">Browse Image</button>
+          </div>
+
+          <div id="photo-preview-container" style="display:none; margin-top:0.75rem; text-align:center;">
+            <img id="photo-preview-img" style="max-height:160px; border-radius:var(--radius-md); border:1px solid var(--border-light); box-shadow:var(--shadow-sm);" />
+          </div>
+        </div>
+
+        <!-- Optional Reporter Info -->
+        <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:2rem;">
+          <div>
+            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Your Name (Optional)</label>
+            <input type="text" id="report-name" placeholder="Citizen or Staff Name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+          </div>
+          <div>
+            <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Phone / Contact (Optional for SMS updates)</label>
+            <input type="tel" id="report-phone" placeholder="+91 98450 00000" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+          </div>
+        </div>
+
+        <button type="submit" id="report-submit-btn" class="btn btn-primary btn-lg" style="width:100%; font-size:1.05rem;">
+          Submit Issue Report
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: TRACK COMPLAINT ==================== -->
+  <section id="tab-track" class="tab-content">
+    <div class="container" style="padding-top:2.5rem; max-width:880px;">
+      <div style="text-align:center; margin-bottom:2rem;">
+        <h2 style="font-size:2.2rem; margin-bottom:0.5rem; color:var(--navy-900);">Track Issue Resolution</h2>
+        <p style="font-size:1.05rem; color:var(--text-muted);">Real-time status milestones, assigned squad updates, and verified before/after proof.</p>
+      </div>
+
+      <!-- Search Input Card -->
+      <div class="card" style="padding:1.5rem; margin-bottom:2rem;">
+        <form id="track-search-form" style="display:flex; gap:0.75rem;">
+          <input type="text" id="track-search-input" placeholder="Enter Reference ID (e.g. CIVIC-2026-1001)" style="flex:1; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.95rem; font-family:var(--font-body); outline:none;" />
+          <button type="submit" class="btn btn-primary" style="padding:0.75rem 1.5rem;">Track Ticket</button>
+        </form>
+
+        <!-- Quick Demo Pill Links -->
+        <div style="margin-top:1rem; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+          <span style="font-size:0.78rem; font-weight:600; color:var(--text-muted);">Quick Sample Tickets:</span>
+          <button type="button" class="badge" data-demo-ticket="CIVIC-2026-1001" style="border:1px solid var(--border-light); background:var(--bg-secondary); cursor:pointer;">CIVIC-2026-1001 (Broken Fan - College)</button>
+          <button type="button" class="badge" data-demo-ticket="CIVIC-2026-1011" style="border:1px solid var(--border-light); background:var(--bg-secondary); cursor:pointer;">CIVIC-2026-1011 (Crater Pothole - Public)</button>
+          <button type="button" class="badge" data-demo-ticket="CIVIC-2026-1002" style="border:1px solid var(--border-light); background:var(--bg-secondary); cursor:pointer;">CIVIC-2026-1002 (Resolved Gas Leak)</button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="track-loading-state" style="display:none; text-align:center; padding:3rem; color:var(--text-muted);">
+        Fetching ticket lifecycle from municipal ledger...
+      </div>
+
+      <!-- Empty State Prompt -->
+      <div id="track-empty-state" style="text-align:center; padding:3.5rem 1.5rem; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-lg);">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🔍</div>
+        <h4 style="font-size:1.15rem; color:var(--navy-900); margin-bottom:0.35rem;">Enter a Reference ID to Track</h4>
+        <p style="font-size:0.9rem; color:var(--text-muted); max-width:420px; margin:0 auto;">
+          Citizens, students, and employees can track live resolution progress from initial AI triage to field completion.
+        </p>
+      </div>
+
+      <!-- Tracking Result Docket Card -->
+      <div id="track-result-container" class="card" style="display:none; padding:2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.25rem; border-bottom:1px solid var(--border-light); padding-bottom:1.25rem;">
+          <div>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.35rem;">
+              <h3 id="track-ticket-id" style="font-size:1.4rem; color:var(--navy-900); font-weight:800;">CIVIC-2026-1001</h3>
+              <span id="track-status-badge" class="badge badge-status-progress">In Progress</span>
+              <span id="track-priority-badge" class="badge badge-critical">Critical</span>
+            </div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">
+              <span id="track-created-date">Reported: Sep 17, 2026</span> • <span id="track-category-pill" style="font-weight:600; color:var(--teal-600);">College Issues</span>
+              <span id="track-institution-tag" class="badge" style="display:none; margin-left:0.5rem; background:var(--sage-100); color:var(--sage-700);">🏛 Institution</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <h4 id="track-issue-title" style="font-size:1.15rem; margin-bottom:0.35rem; color:var(--navy-900);">Issue Title</h4>
+          <p id="track-issue-desc" style="font-size:0.92rem; color:var(--text-muted); line-height:1.5; margin-bottom:0.5rem;">Detailed description...</p>
+          <p style="font-size:0.85rem; color:var(--text-light);">📍 <span id="track-location-desc">Address</span></p>
+        </div>
+
+        <!-- Assigned Squad Box -->
+        <div id="track-assigned-squad-box" style="background:var(--bg-secondary); border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1rem 1.25rem; margin-bottom:2rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:0.25rem;">Assigned Response Squad</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+            <div>
+              <strong id="track-squad-name" style="font-size:1rem; color:var(--navy-900);">Institutional Facilities Unit</strong>
+              <div id="track-squad-dept" style="font-size:0.82rem; color:var(--text-muted);">Dept: Institutional Facilities</div>
+            </div>
+            <div style="text-align:right;">
+              <div id="track-squad-lead" style="font-size:0.85rem; font-weight:600;">Lead: Deepa Nair</div>
+              <div id="track-squad-phone" style="font-size:0.82rem; color:var(--teal-600);">+91 98450 66706</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Milestone Timeline -->
+        <div style="margin-bottom:2.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:1.5rem; color:var(--navy-900);">Resolution Lifecycle Progress</h4>
+          <div id="track-milestones-list" class="timeline-track"></div>
+        </div>
+
+        <!-- Before & After Photo Evidence -->
+        <div id="track-photos-section" style="display:none; margin-bottom:2rem; border-top:1px solid var(--border-light); padding-top:1.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Field Verification Evidence</h4>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.25rem;" class="form-row-2">
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:0.35rem;">Initial Report Photo:</div>
+              <img id="track-original-photo" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-md); border:1px solid var(--border-light);" />
+            </div>
+            <div>
+              <div style="font-size:0.8rem; font-weight:700; color:var(--green-500); margin-bottom:0.35rem;">✓ Field Resolution Proof Photo:</div>
+              <img id="track-resolution-photo" style="width:100%; height:180px; object-fit:cover; border-radius:var(--radius-md); border:1px solid var(--border-light);" />
+            </div>
+          </div>
+          <p id="track-resolution-notes" style="font-size:0.85rem; font-style:italic; color:var(--text-muted); margin-top:0.75rem; background:var(--sage-50); padding:0.75rem; border-radius:var(--radius-sm);"></p>
+        </div>
+
+        <!-- Audit Trail Table -->
+        <div style="border-top:1px solid var(--border-light); padding-top:1.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:0.75rem; color:var(--navy-900);">Audit Log & History</h4>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; text-align:left; border-collapse:collapse;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-light); font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">
+                  <th style="padding:0.5rem 0.75rem;">Time</th>
+                  <th style="padding:0.5rem 0.75rem;">Action</th>
+                  <th style="padding:0.5rem 0.75rem;">Actor</th>
+                  <th style="padding:0.5rem 0.75rem;">Notes</th>
+                </tr>
+              </thead>
+              <tbody id="track-audit-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: GIS COMMAND CENTER ==================== -->
+  <section id="tab-gis" class="tab-content">
+    <div class="container" style="padding-top:2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:2rem; color:var(--navy-900);">GIS Spatial Command Center</h2>
+          <p style="font-size:0.95rem; color:var(--text-muted);">Live municipal map, severity heat zones, and connected institution telemetry.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <label style="display:flex; align-items:center; gap:0.35rem; font-size:0.85rem; font-weight:600; background:#FFF; border:1px solid var(--border-light); padding:0.45rem 0.85rem; border-radius:var(--radius-md); cursor:pointer;">
+            <input type="checkbox" id="gis-toggle-hotspots" checked /> Severity Hotspots
+          </label>
+          <label style="display:flex; align-items:center; gap:0.35rem; font-size:0.85rem; font-weight:600; background:#FFF; border:1px solid var(--border-light); padding:0.45rem 0.85rem; border-radius:var(--radius-md); cursor:pointer;">
+            <input type="checkbox" id="gis-toggle-institutions" checked /> Institutions (🏛)
+          </label>
+        </div>
+      </div>
+
+      <!-- Split Layout: Left Filters & Stats, Right Full Map -->
+      <div class="gis-split-layout" style="display:grid; grid-template-columns: 320px 1fr; gap:1.5rem; align-items:stretch;">
+        <!-- Left Sidebar -->
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <!-- Quick Filters Card -->
+          <div class="card" style="padding:1.25rem;">
+            <h4 style="font-size:0.95rem; margin-bottom:1rem; color:var(--navy-900);">Map Filter Layers</h4>
+            <div style="margin-bottom:0.75rem;">
+              <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.25rem;">Priority Level</label>
+              <select id="gis-filter-priority" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body); background:#FFF;">
+                <option value="All">All Priorities</option>
+                <option value="Critical">Critical Only</option>
+                <option value="High">High Priority</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div style="margin-bottom:0.75rem;">
+              <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.25rem;">Resolution Status</label>
+              <select id="gis-filter-status" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body); background:#FFF;">
+                <option value="All">All Statuses</option>
+                <option value="Assigned">Assigned / Dispatched</option>
+                <option value="In Progress">Active In Progress</option>
+                <option value="Resolved">Resolved & Verified</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-bottom:0.25rem;">Municipal Ward</label>
+              <select id="gis-filter-ward" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body); background:#FFF;">
+                <option value="All">All Wards</option>
+                <option value="Ward 4 - Indiranagar">Ward 4 - Indiranagar</option>
+                <option value="Ward 7 - Koramangala">Ward 7 - Koramangala</option>
+                <option value="Ward 2 - Malleshwaram">Ward 2 - Malleshwaram</option>
+                <option value="Ward 11 - Whitefield">Ward 11 - Whitefield</option>
+                <option value="Ward 5 - Jayanagar">Ward 5 - Jayanagar</option>
+                <option value="Ward 1 - Majestic">Ward 1 - Majestic</option>
+                <option value="Ward 9 - Rajajinagar">Ward 9 - Rajajinagar</option>
+                <option value="Ward 3 - HSR Layout">Ward 3 - HSR Layout</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Live Counts Sidebar Card -->
+          <div class="card" style="padding:1.25rem;">
+            <h4 style="font-size:0.95rem; margin-bottom:0.75rem; color:var(--navy-900);">Spatial Telemetry</h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; text-align:center;">
+              <div style="background:var(--bg-secondary); padding:0.5rem; border-radius:var(--radius-sm);">
+                <div id="gis-count-total" style="font-size:1.2rem; font-weight:700;">24</div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">Visible Pins</div>
+              </div>
+              <div style="background:var(--coral-100); padding:0.5rem; border-radius:var(--radius-sm);">
+                <div id="gis-count-critical" style="font-size:1.2rem; font-weight:700; color:var(--coral-500);">6</div>
+                <div style="font-size:0.7rem; color:var(--coral-500);">Critical Pins</div>
+              </div>
+              <div style="background:var(--amber-100); padding:0.5rem; border-radius:var(--radius-sm);">
+                <div id="gis-count-progress" style="font-size:1.2rem; font-weight:700; color:var(--amber-500);">8</div>
+                <div style="font-size:0.7rem; color:var(--amber-500);">Active Crews</div>
+              </div>
+              <div style="background:var(--green-100); padding:0.5rem; border-radius:var(--radius-sm);">
+                <div id="gis-count-resolved" style="font-size:1.2rem; font-weight:700; color:var(--green-500);">10</div>
+                <div style="font-size:0.7rem; color:var(--green-500);">Resolved</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Hotspots Ranking -->
+          <div class="card" style="padding:1.25rem; flex:1;">
+            <h4 style="font-size:0.95rem; margin-bottom:0.75rem; color:var(--navy-900);">Priority Hotspot Zones</h4>
+            <div id="gis-hotspots-list"></div>
+          </div>
+        </div>
+
+        <!-- Right Leaflet Map Card -->
+        <div class="card" style="padding:0; overflow:hidden; min-height:640px; position:relative;">
+          <div id="gis-map" class="gis-map-container" style="width:100%; height:100%; min-height:640px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: INSTITUTIONS ==================== -->
+  <section id="tab-institutions" class="tab-content">
+    <div class="container" style="padding-top:2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:2rem; color:var(--navy-900);">Connected Institutions Directory</h2>
+          <p style="font-size:0.95rem; color:var(--text-muted);">Dedicated maintenance dockets for universities, schools, healthcare, and corporate campuses.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <select id="inst-filter-type" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.6rem 1rem; font-size:0.9rem; font-family:var(--font-body); background:#FFF;">
+            <option value="All">All Institution Types</option>
+            <option value="College / University">Colleges & Universities</option>
+            <option value="School">Schools</option>
+            <option value="Hospital">Hospitals & Healthcare</option>
+            <option value="Office / Workplace">Offices & Tech Parks</option>
+            <option value="Municipal Facility">Municipal Facilities</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Institutions Grid -->
+      <div id="institutions-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap:1.5rem;"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: FIELD OPERATIONS ==================== -->
+  <section id="tab-field-ops" class="tab-content">
+    <div class="container" style="padding-top:2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:2rem; color:var(--navy-900);">Field Operations Dispatch</h2>
+          <p style="font-size:0.95rem; color:var(--text-muted);">Active work orders, squad workload routing, and on-site repair proof submission.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <select id="field-filter-status" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.6rem 1rem; font-size:0.9rem; font-family:var(--font-body); background:#FFF;">
+            <option value="All">All Work Order Statuses</option>
+            <option value="Assigned">Assigned (Ready for Dispatch)</option>
+            <option value="In Progress">In Progress (Crews On-Site)</option>
+            <option value="Resolved">Resolved (Pending QA)</option>
+            <option value="Verified">Verified & Closed</option>
+          </select>
+          <select id="field-filter-priority" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.6rem 1rem; font-size:0.9rem; font-family:var(--font-body); background:#FFF;">
+            <option value="All">All Priorities</option>
+            <option value="Critical">Critical Emergency</option>
+            <option value="High">High Urgency</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Routine</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Field Squads Capacity Overview Bar -->
+      <div style="margin-bottom:2rem;">
+        <h4 style="font-size:1.05rem; margin-bottom:0.75rem; color:var(--navy-900);">Active Field Maintenance Squads</h4>
+        <div id="field-teams-summary-bar" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1rem;"></div>
+      </div>
+
+      <!-- Work Orders Grid -->
+      <div>
+        <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Work Order Docket</h4>
+        <div id="work-orders-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap:1.25rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: ASSET & RESOURCE INVENTORY ==================== -->
+  <section id="tab-inventory" class="tab-content">
+    <div class="container" style="padding-top:2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:2rem; color:var(--navy-900);">Asset & Material Resources</h2>
+          <p style="font-size:0.95rem; color:var(--text-muted);">Stock levels for bitumen, LED streetlights, drainage components, and institutional parts.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <select id="inv-filter-category" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.6rem 1rem; font-size:0.9rem; font-family:var(--font-body); background:#FFF;">
+            <option value="All">All Material Categories</option>
+            <option value="Roads">Roads & Bitumen</option>
+            <option value="Electrical">Electrical & Lighting</option>
+            <option value="Water & Sanitation">Water & Drainage</option>
+            <option value="Institutional">Institutional & Campus</option>
+            <option value="Sanitation">Sanitation Supplies</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Inventory Grid -->
+      <div id="inventory-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap:1.25rem; margin-bottom:3rem;"></div>
+
+      <!-- Material Consumption Logs Table -->
+      <div class="card" style="padding:1.5rem;">
+        <h4 style="font-size:1.15rem; margin-bottom:1rem; color:var(--navy-900);">Recent Material Application & Consumption History</h4>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; text-align:left; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border-light); font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">
+                <th style="padding:0.6rem 0.75rem;">Date</th>
+                <th style="padding:0.6rem 0.75rem;">Ticket ID</th>
+                <th style="padding:0.6rem 0.75rem;">Component / Material</th>
+                <th style="padding:0.6rem 0.75rem;">Qty Applied</th>
+                <th style="padding:0.6rem 0.75rem;">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="consumption-history-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB: ANALYTICS & AI DASHBOARD ==================== -->
+  <section id="tab-dashboard" class="tab-content">
+    <div class="container" style="padding-top:2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:2rem; color:var(--navy-900);">Municipal Executive Dashboard</h2>
+          <p style="font-size:0.95rem; color:var(--text-muted);">Comprehensive civic KPIs, ML category distributions, ward hotspots, and AI advisories.</p>
+        </div>
+        <button id="dash-export-csv-btn" class="btn btn-secondary btn-sm">
+          <span>📥 Export Complaints CSV</span>
+        </button>
+      </div>
+
+      <!-- Top Metric KPI Cards -->
+      <div class="dashboard-kpi-grid" style="display:grid; grid-template-columns: repeat(6, 1fr); gap:1rem; margin-bottom:2rem;">
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-total" style="font-size:2rem; font-weight:800; color:var(--navy-900);">24</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted);">Total Issues</div>
+        </div>
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-critical" style="font-size:2rem; font-weight:800; color:var(--coral-500);">6</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--coral-500);">Critical Hazards</div>
+        </div>
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-open" style="font-size:2rem; font-weight:800; color:var(--text-muted);">4</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--text-muted);">Open / Queued</div>
+        </div>
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-progress" style="font-size:2rem; font-weight:800; color:var(--amber-500);">8</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--amber-500);">In Progress</div>
+        </div>
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-resolved" style="font-size:2rem; font-weight:800; color:var(--green-500);">12</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--green-500);">Resolved</div>
+        </div>
+        <div class="card" style="padding:1.25rem; text-align:center;">
+          <div id="dash-kpi-rate" style="font-size:2rem; font-weight:800; color:var(--teal-500);">58%</div>
+          <div style="font-size:0.75rem; font-weight:600; text-transform:uppercase; color:var(--teal-500);">Resolution SLA</div>
+        </div>
+      </div>
+
+      <!-- Charts & AI Insights Grid -->
+      <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:1.5rem; margin-bottom:2rem;" class="hero-grid">
+        <!-- Category Distribution Chart Card -->
+        <div class="card" style="padding:1.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Category Frequency Distribution</h4>
+          <div id="dash-category-chart"></div>
+        </div>
+
+        <!-- Priority Breakdown Card -->
+        <div class="card" style="padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Priority Classification</h4>
+            <div id="dash-priority-breakdown" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.5rem;"></div>
+          </div>
+          <div style="background:var(--bg-secondary); padding:1rem; border-radius:var(--radius-md); text-align:center;">
+            <div style="font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">Average Turnaround SLA</div>
+            <div id="dash-kpi-sla" style="font-size:1.6rem; font-weight:800; color:var(--teal-600); margin:0.2rem 0;">18.5 hrs</div>
+            <div style="font-size:0.78rem; color:var(--text-light);">Benchmarked against municipal charter</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hotspots Table & Actionable Insights -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:2.5rem;" class="hero-grid">
+        <!-- Ward Hotspots Ranking Table -->
+        <div class="card" style="padding:1.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Top Ward Hotspot Risk Ranking</h4>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; text-align:left; border-collapse:collapse;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-light); font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">
+                  <th style="padding:0.5rem 0.75rem;">Ward</th>
+                  <th style="padding:0.5rem 0.75rem;">Total</th>
+                  <th style="padding:0.5rem 0.75rem;">Critical</th>
+                  <th style="padding:0.5rem 0.75rem;">Severity</th>
+                  <th style="padding:0.5rem 0.75rem;">Lead Category</th>
+                </tr>
+              </thead>
+              <tbody id="dash-hotspots-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Actionable AI Recommendations -->
+        <div class="card" style="padding:1.5rem;">
+          <h4 style="font-size:1.05rem; margin-bottom:1rem; color:var(--navy-900);">Actionable AI Operational Advisories</h4>
+          <div id="dash-actionable-insights" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+        </div>
+      </div>
+
+      <!-- Full Complaints Registry Table -->
+      <div class="card" style="padding:1.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:1rem;">
+          <h4 style="font-size:1.15rem; color:var(--navy-900);">Complaints Master Registry</h4>
+          <div style="display:flex; gap:0.5rem;">
+            <input type="text" id="dash-registry-search" placeholder="Search by ID, title, ward..." style="border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem 0.85rem; font-size:0.85rem; font-family:var(--font-body); width:240px;" />
+            <select id="dash-registry-status" style="border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body); background:#FFF;">
+              <option value="All">All Statuses</option>
+              <option value="Submitted">Submitted</option>
+              <option value="AI Analyzed">AI Analyzed</option>
+              <option value="Assigned">Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Verified">Verified</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%; text-align:left; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border-light); font-size:0.78rem; text-transform:uppercase; color:var(--text-muted);">
+                <th style="padding:0.75rem;">ID</th>
+                <th style="padding:0.75rem;">Title</th>
+                <th style="padding:0.75rem;">Category</th>
+                <th style="padding:0.75rem;">Priority</th>
+                <th style="padding:0.75rem;">Status</th>
+                <th style="padding:0.75rem;">Ward</th>
+                <th style="padding:0.75rem; text-align:right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="dash-registry-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Report Success Modal -->
+  <div id="report-success-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--sage-100); color:var(--sage-700); font-size:1.75rem; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">✓</div>
+        <h3 style="font-size:1.4rem; color:var(--navy-900); margin-bottom:0.25rem;">Issue Successfully Filed</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted);">Processed by CivicAI Intelligence Engine & assigned for field response.</p>
+      </div>
+
+      <div style="background:var(--bg-secondary); padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Reference ID:</span>
+          <strong id="modal-ticket-id" style="color:var(--teal-600); font-size:1.05rem;">CIVIC-2026-XXXX</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Title:</span>
+          <strong id="modal-ticket-title" style="font-size:0.9rem; color:var(--navy-900);">Issue Title</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Category:</span>
+          <span id="modal-ticket-category" style="font-weight:600;">Category</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Assessed Priority:</span>
+          <span id="modal-ticket-priority" class="badge badge-medium">Priority</span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Initial Status:</span>
+          <span id="modal-ticket-status" class="badge badge-status-analyzed">AI Analyzed</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:0.75rem;">
+        <button id="modal-track-btn" class="btn btn-primary" style="flex:1;">Track Resolution</button>
+        <button class="btn btn-secondary" onclick="closeSuccessModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Field Workorder Resolve Modal -->
+  <div id="workorder-resolve-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="margin-bottom:1.25rem;">
+        <h3 style="font-size:1.3rem; color:var(--navy-900); margin-bottom:0.25rem;">Resolve Work Order</h3>
+        <p id="resolve-modal-ticket-title" style="font-size:0.88rem; color:var(--text-muted);">Ticket Title</p>
+        <span id="resolve-modal-ticket-id" class="badge" style="background:var(--sage-100); color:var(--sage-700); margin-top:0.35rem;">CIVIC-ID</span>
+      </div>
+
+      <form id="workorder-resolve-form">
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Technician Action Notes *</label>
+          <textarea id="resolve-notes-input" required rows="3" placeholder="Describe repair actions performed, testing verification, and final on-site status..." style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);"></textarea>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Resolution Proof Image URL</label>
+          <input type="text" id="resolve-photo-input" value="/static/uploads/sample_resolved.jpg" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+        </div>
+
+        <div style="margin-bottom:1.5rem; background:var(--bg-secondary); padding:1rem; border-radius:var(--radius-md);">
+          <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.4rem;">Record Material Consumed (Optional)</label>
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
+            <select id="resolve-material-select" style="border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body); background:#FFF;">
+              <option value="">Select Spare Component...</option>
+            </select>
+            <input type="number" id="resolve-material-qty" min="1" value="1" placeholder="Qty" style="border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:0.5rem; font-size:0.85rem; font-family:var(--font-body);" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem;">
+          <button type="submit" class="btn btn-primary" style="flex:1;">Submit & Close Ticket</button>
+          <button type="button" class="btn btn-secondary" onclick="closeResolveModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Institution Docket Modal -->
+  <div id="institution-docket-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width:720px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem; border-bottom:1px solid var(--border-light); padding-bottom:0.75rem;">
+        <div>
+          <h3 id="inst-docket-title" style="font-size:1.35rem; color:var(--navy-900);">Institution Docket</h3>
+          <p id="inst-docket-meta" style="font-size:0.85rem; color:var(--text-muted);">Campus Metadata</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="closeInstitutionDocket()">✕</button>
+      </div>
+
+      <div id="inst-docket-list" style="max-height:420px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- Inventory Restock Modal -->
+  <div id="inventory-restock-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="margin-bottom:1.25rem;">
+        <h3 style="font-size:1.3rem; color:var(--navy-900); margin-bottom:0.25rem;">Restock Material</h3>
+        <p id="restock-item-name" style="font-size:0.95rem; font-weight:600; color:var(--teal-600);">Item Name</p>
+        <span id="restock-item-id" class="badge" style="background:var(--bg-secondary);">INV-ID</span>
+      </div>
+
+      <form id="inventory-restock-form">
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-size:0.88rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Quantity to Add to Stock</label>
+          <input type="number" id="restock-qty-input" min="1" value="20" required style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.95rem; font-family:var(--font-body);" />
+        </div>
+
+        <div style="display:flex; gap:0.75rem;">
+          <button type="submit" class="btn btn-primary" style="flex:1;">Confirm Restock</button>
+          <button type="button" class="btn btn-secondary" onclick="closeRestockModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Global Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Application Modules -->
+  <script src="/js/app.js"></script>
+  <script src="/js/report.js"></script>
+  <script src="/js/track.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/institutions.js"></script>
+  <script src="/js/field_ops.js"></script>
+  <script src="/js/inventory.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
