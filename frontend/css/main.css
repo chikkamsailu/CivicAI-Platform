@@ -525,3 +525,20 @@ p {
   font-size: 0.9rem;
   animation: slideInRight 0.3s ease;
 }
+
+/* Location-Specific Context Cards & Wizard Options */
+.loc-context-card {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wizard-options-grid label {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.wizard-options-grid label:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal-500);
+  background: #FFFFFF;
+}

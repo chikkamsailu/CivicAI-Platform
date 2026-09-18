@@ -645,11 +645,293 @@
             </div>
 
             <!-- Dynamic Institution Dropdown -->
-            <div id="institution-select-container" style="display:none; margin-top:1rem;">
-              <label style="font-size:0.88rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:0.4rem;">Select Campus or Facility:</label>
-              <select id="report-institution-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
-                <option value="">Select Campus...</option>
-              </select>
+            <!-- CONDITIONAL LOCATION CONTEXT CARDS -->
+            <div id="location-context-cards-container" style="margin-top:1.25rem;">
+              
+              <!-- Card 1: Public / Road -->
+              <div id="loc-card-public" class="loc-context-card" style="display:block; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid var(--teal-500); box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="badge" style="background:var(--teal-100); color:var(--teal-700); font-weight:700; font-size:0.78rem;">PUBLIC / ROAD</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">Civic & Neighborhood Infrastructure</span>
+                </div>
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:0.75rem; line-height:1.5;">
+                  Direct civic reporting for public roadways, footpaths, traffic signals, drainage, and residential avenues.
+                </p>
+                <div style="display:flex; flex-wrap:wrap; gap:0.4rem; font-size:0.78rem; align-items:center;">
+                  <span style="color:var(--text-light); font-weight:600;">Example Issues:</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Pothole</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Damaged Road</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Garbage Overflow</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Blocked Drainage</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Streetlight Failure</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Water Leakage</span>
+                  <span class="badge" style="background:var(--bg-secondary);">Fallen Tree</span>
+                </div>
+              </div>
+
+              <!-- Card 2: College / University -->
+              <div id="loc-card-college" class="loc-context-card" style="display:none; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid #5B21B6; box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                  <span class="badge" style="background:#EDE9FE; color:#5B21B6; font-weight:700; font-size:0.78rem;">COLLEGE / UNIVERSITY</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">Higher Education & Campus Facilities</span>
+                </div>
+                
+                <div style="margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.88rem; font-weight:700; color:var(--navy-900); margin-bottom:0.35rem;">
+                    Select College / University *
+                  </label>
+                  <select id="college-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
+                    <option value="">Select College / University Campus...</option>
+                  </select>
+                </div>
+
+                <div id="college-custom-name-box" style="display:none; margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.3rem;">
+                    College / University Name *
+                  </label>
+                  <input type="text" id="college-custom-name" placeholder="Enter college or university name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Campus / Block / Building *</label>
+                    <input type="text" id="college-block" placeholder="e.g. Engineering Block C, Science Complex, Hostel Wing 2" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Department / Area</label>
+                    <input type="text" id="college-dept" placeholder="e.g. Computer Science, Electrical Lab, Central Library" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                </div>
+
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Room / Lab / Floor (Optional)</label>
+                  <input type="text" id="college-room" placeholder="e.g. Room 204, DSP Lab, 2nd Floor Corridor" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+              </div>
+
+              <!-- Card 3: School -->
+              <div id="loc-card-school" class="loc-context-card" style="display:none; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid var(--teal-600); box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                  <span class="badge" style="background:var(--teal-100); color:var(--teal-700); font-weight:700; font-size:0.78rem;">SCHOOL</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">K-12 & Primary Educational Facilities</span>
+                </div>
+                
+                <div style="margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.88rem; font-weight:700; color:var(--navy-900); margin-bottom:0.35rem;">
+                    Select School *
+                  </label>
+                  <select id="school-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.92rem; font-family:var(--font-body); background:#FFFFFF;">
+                    <option value="">Select School...</option>
+                  </select>
+                </div>
+
+                <div id="school-custom-name-box" style="display:none; margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.3rem;">
+                    School Name *
+                  </label>
+                  <input type="text" id="school-custom-name" placeholder="Enter school name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Block / Building / Area *</label>
+                    <input type="text" id="school-block" placeholder="e.g. Primary Wing, High School Block, Main Building" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Classroom / Lab / Playground / Toilet / Other Area *</label>
+                    <select id="school-area-type" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="Classroom">Classroom</option>
+                      <option value="Science / Computer Lab">Science / Computer Lab</option>
+                      <option value="Playground & Sports Field">Playground & Sports Field</option>
+                      <option value="Toilet & Restroom Facility">Toilet & Restroom Facility</option>
+                      <option value="Drinking Water Station">Drinking Water Station</option>
+                      <option value="Cafeteria / Midday Meal Area">Cafeteria / Midday Meal Area</option>
+                      <option value="Staff Room & Admin">Staff Room & Admin</option>
+                      <option value="Corridor & Staircase">Corridor & Staircase</option>
+                      <option value="School Bus Bay / Parking">School Bus Bay / Parking</option>
+                      <option value="Other School Area">Other School Area</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Specific Room / Location Identifier (Optional)</label>
+                  <input type="text" id="school-room" placeholder="e.g. Class 8-B, Girls Restroom 1st Floor, Near Assembly Stage" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+              </div>
+
+              <!-- Card 4: Workplace / Office -->
+              <div id="loc-card-workplace" class="loc-context-card" style="display:none; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid var(--navy-700); box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                  <span class="badge" style="background:var(--navy-100); color:var(--navy-900); font-weight:700; font-size:0.78rem;">WORKPLACE</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">Corporate Offices, IT Parks & Industrial Facilities</span>
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Workplace Type *</label>
+                    <select id="workplace-type" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="Corporate Office">Corporate Office</option>
+                      <option value="IT Tech Park / Campus">IT Tech Park / Campus</option>
+                      <option value="Government Office">Government Office</option>
+                      <option value="Industrial Facility">Industrial Facility</option>
+                      <option value="Factory">Factory</option>
+                      <option value="Commercial Building">Commercial Building</option>
+                      <option value="Other Workplace">Other Workplace</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.88rem; font-weight:700; color:var(--navy-900); margin-bottom:0.35rem;">
+                      Select Workplace / Office *
+                    </label>
+                    <select id="workplace-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="">Select Workplace / Office...</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="workplace-custom-name-box" style="display:none; margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.3rem;">
+                    Workplace / Office Name *
+                  </label>
+                  <input type="text" id="workplace-custom-name" placeholder="Enter company or tech park name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Building / Block *</label>
+                    <input type="text" id="workplace-building" placeholder="e.g. Tower A, Building 3, Block 4B" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Floor / Department</label>
+                    <input type="text" id="workplace-dept" placeholder="e.g. Floor 4 - IT Operations, Finance Wing" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                </div>
+
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Room / Area</label>
+                  <input type="text" id="workplace-room" placeholder="e.g. Server Room 4B, Conference Room 2, Cafeteria Bay" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+              </div>
+
+              <!-- Card 5: Hospital / Healthcare Facility -->
+              <div id="loc-card-hospital" class="loc-context-card" style="display:none; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid var(--coral-500); box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                  <span class="badge" style="background:var(--coral-100); color:var(--coral-500); font-weight:700; font-size:0.78rem;">HOSPITAL</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">Hospitals & Healthcare Facilities</span>
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Facility Type *</label>
+                    <select id="hospital-type" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="Government Hospital">Government Hospital</option>
+                      <option value="District Hospital">District Hospital</option>
+                      <option value="Private Hospital">Private Hospital</option>
+                      <option value="Primary Health Centre">Primary Health Centre (PHC)</option>
+                      <option value="Community Health Centre">Community Health Centre (CHC)</option>
+                      <option value="Clinic">Clinic</option>
+                      <option value="Other Healthcare Facility">Other Healthcare Facility</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.88rem; font-weight:700; color:var(--navy-900); margin-bottom:0.35rem;">
+                      Select Hospital / Healthcare Facility *
+                    </label>
+                    <select id="hospital-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="">Select Hospital / Healthcare Facility...</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="hospital-custom-name-box" style="display:none; margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.3rem;">
+                    Hospital / Facility Name *
+                  </label>
+                  <input type="text" id="hospital-custom-name" placeholder="Enter hospital or clinic name" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Building / Block *</label>
+                    <input type="text" id="hospital-building" placeholder="e.g. Emergency & Trauma Block, OPD Wing, Block B" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Department / Ward *</label>
+                    <select id="hospital-dept" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="Emergency & Ambulance Bay">Emergency & Ambulance Bay</option>
+                      <option value="Outpatient Department (OPD)">Outpatient Department (OPD)</option>
+                      <option value="Intensive Care Unit (ICU)">Intensive Care Unit (ICU)</option>
+                      <option value="General Inpatient Ward">General Inpatient Ward</option>
+                      <option value="Pediatric / Maternity Ward">Pediatric / Maternity Ward</option>
+                      <option value="Diagnostic & Radiology">Diagnostic & Radiology</option>
+                      <option value="Operation Theatres">Operation Theatres</option>
+                      <option value="Blood Bank / Pharmacy">Blood Bank / Pharmacy</option>
+                      <option value="Waste Disposal & Sanitation">Waste Disposal & Sanitation</option>
+                      <option value="Other Department">Other Department</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Floor</label>
+                    <input type="text" id="hospital-floor" placeholder="e.g. Ground Floor, 1st Floor, Basement B1" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Room / Area</label>
+                    <input type="text" id="hospital-room" placeholder="e.g. Triage Bay 3, Sub-basement Dock B2, Bed 12" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 6: Public Facility -->
+              <div id="loc-card-public-facility" class="loc-context-card" style="display:none; background:#FFFFFF; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem 1.5rem; border-left:4px solid var(--amber-500); box-shadow:var(--shadow-sm);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                  <span class="badge" style="background:var(--amber-100); color:var(--amber-700); font-weight:700; font-size:0.78rem;">PUBLIC FACILITY</span>
+                  <span style="font-size:0.82rem; color:var(--text-muted);">Municipal & Civic Utility Infrastructure</span>
+                </div>
+
+                <div class="form-row-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                  <div>
+                    <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Facility Type *</label>
+                    <select id="public-facility-type" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="Public Toilet">Public Toilet</option>
+                      <option value="Bus Stop / Passenger Shelter">Bus Stop / Passenger Shelter</option>
+                      <option value="Public Park">Public Park</option>
+                      <option value="Community Hall">Community Hall</option>
+                      <option value="Government Building">Government Building</option>
+                      <option value="Public Library">Public Library</option>
+                      <option value="Market">Market</option>
+                      <option value="Bus Station">Bus Station</option>
+                      <option value="Public Parking">Public Parking</option>
+                      <option value="Sports Facility">Sports Facility</option>
+                      <option value="Other Public Facility">Other Public Facility</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:0.88rem; font-weight:700; color:var(--navy-900); margin-bottom:0.35rem;">
+                      Select Public Facility *
+                    </label>
+                    <select id="public-facility-select" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body); background:#FFFFFF;">
+                      <option value="">Select Public Facility...</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="public-facility-custom-name-box" style="display:none; margin-bottom:1rem;">
+                  <label style="display:block; font-size:0.85rem; font-weight:700; color:var(--navy-900); margin-bottom:0.3rem;">
+                    Facility Name / Location *
+                  </label>
+                  <input type="text" id="public-facility-custom-name" placeholder="Enter facility name or landmark" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+
+                <div>
+                  <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">Area / Section *</label>
+                  <input type="text" id="public-facility-area" placeholder="e.g. Platform 3 Waiting Area, North Gate Restroom, Sector 2 Jogging Track" style="width:100%; border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-size:0.9rem; font-family:var(--font-body);" />
+                </div>
+              </div>
+
             </div>
           </div>
 

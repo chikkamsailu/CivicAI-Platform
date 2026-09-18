@@ -1,5 +1,4 @@
-// CivicAI - Guided 4-Step Issue Reporting Wizard & Live AI Assistant
-
+﻿// CivicAI - Guided 4-Step Issue Reporting Wizard & Location-Specific Dynamic Context
 let reportMap = null;
 let reportMarker = null;
 let aiDebounceTimer = null;
@@ -8,7 +7,60 @@ let currentWizardStep = 1;
 
 const DEFAULT_COORDS = [12.9716, 77.5946]; // Bengaluru Civic Center
 
-// Step Wizard Navigation
+// Pre-configured Verified Institutional Directory
+const LOCATION_PRESETS = {
+  colleges: [
+    { id: "INST-001", name: "National Institute of Engineering & Technology", ward: "Ward 4 - Indiranagar", address: "100ft Road, HAL 2nd Stage", lat: 12.9719, lng: 77.6412 },
+    { id: "INST-007", name: "Vidya Vardhaka Law & Arts College", ward: "Ward 9 - Rajajinagar", address: "Dr. Rajkumar Road", lat: 12.9915, lng: 77.5552 },
+    { id: "", name: "RV College of Engineering", ward: "Ward 5 - Jayanagar", address: "RV Vidyaniketan Post, Mysore Road", lat: 12.9240, lng: 77.5000 },
+    { id: "", name: "Indian Institute of Science (IISc)", ward: "Ward 2 - Malleshwaram", address: "CV Raman Road, Malleshwaram", lat: 13.0219, lng: 77.5671 },
+    { id: "", name: "Bangalore University - Central Campus", ward: "Ward 1 - Majestic", address: "Jnana Bharathi Campus", lat: 12.9740, lng: 77.5750 },
+    { id: "", name: "PES University", ward: "Ward 3 - HSR Layout", address: "Outer Ring Road, Banashankari", lat: 12.9344, lng: 77.5344 },
+    { id: "", name: "Bangalore Medical College & Research Institute", ward: "Ward 1 - Majestic", address: "Fort Road, near City Market", lat: 12.9620, lng: 77.5760 }
+  ],
+  schools: [
+    { id: "INST-002", name: "St. Xavier Public Senior Secondary School", ward: "Ward 7 - Koramangala", address: "8th Main, 4th Block", lat: 12.9352, lng: 77.6245 },
+    { id: "INST-005", name: "Indira Gandhi Memorial Girls High School", ward: "Ward 5 - Jayanagar", address: "11th Main, 4th T Block", lat: 12.9250, lng: 77.5938 },
+    { id: "", name: "Government Model High School", ward: "Ward 2 - Malleshwaram", address: "13th Cross, Margosa Road", lat: 12.9970, lng: 77.5700 },
+    { id: "", name: "Kendriya Vidyalaya - Hebbal Campus", ward: "Ward 1 - Majestic", address: "Sadashivanagar Post, Bellary Road", lat: 13.0250, lng: 77.5890 },
+    { id: "", name: "National Public School - Indiranagar", ward: "Ward 4 - Indiranagar", address: "12th A Main Road, HAL 2nd Stage", lat: 12.9780, lng: 77.6400 },
+    { id: "", name: "Delhi Public School - South", ward: "Ward 5 - Jayanagar", address: "Kanakapura Road, Konanakunte", lat: 12.8900, lng: 77.5600 },
+    { id: "", name: "St. Joseph's Boys' High School", ward: "Ward 4 - Indiranagar", address: "Museum Road, Shanthala Nagar", lat: 12.9705, lng: 77.6010 }
+  ],
+  workplaces: [
+    { id: "INST-004", name: "Apex Global Technology Park - Campus 3", ward: "Ward 11 - Whitefield", address: "ITPL Main Road", lat: 12.9863, lng: 77.7305 },
+    { id: "INST-008", name: "Civic Technology & Innovation Hub", ward: "Ward 3 - HSR Layout", address: "27th Main Road, Sector 1", lat: 12.9116, lng: 77.6499 },
+    { id: "", name: "Manyata Embassy Business Park", ward: "Ward 11 - Whitefield", address: "Outer Ring Road, Nagawara", lat: 13.0480, lng: 77.6200 },
+    { id: "", name: "Bagmane Tech Park", ward: "Ward 4 - Indiranagar", address: "CV Raman Nagar", lat: 12.9800, lng: 77.6600 },
+    { id: "", name: "RMZ Infinity Corporate Complex", ward: "Ward 4 - Indiranagar", address: "Old Madras Road, Bennigana Halli", lat: 12.9930, lng: 77.6610 },
+    { id: "", name: "UB City Commercial Complex", ward: "Ward 1 - Majestic", address: "24 Vittal Mallya Road", lat: 12.9718, lng: 77.5958 },
+    { id: "", name: "Karnataka Government Secretariat / Vidhana Soudha", ward: "Ward 1 - Majestic", address: "Ambedkar Veedhi", lat: 12.9796, lng: 77.5906 },
+    { id: "", name: "Peenya Industrial Estate Phase 1", ward: "Ward 9 - Rajajinagar", address: "Peenya Industrial Area", lat: 13.0300, lng: 77.5200 }
+  ],
+  hospitals: [
+    { id: "INST-003", name: "City Central Multispecialty Hospital", ward: "Ward 2 - Malleshwaram", address: "Sampige Road, 15th Cross", lat: 12.9982, lng: 77.5714 },
+    { id: "", name: "Victoria Hospital & Emergency Complex", ward: "Ward 1 - Majestic", address: "Fort Road, near City Market", lat: 12.9640, lng: 77.5750 },
+    { id: "", name: "Bowring & Lady Curzon Hospital", ward: "Ward 4 - Indiranagar", address: "Hospital Road, Shivaji Nagar", lat: 12.9840, lng: 77.6030 },
+    { id: "", name: "NIMHANS Neuro & Emergency Hospital", ward: "Ward 7 - Koramangala", address: "Hosur Road, Lakkasandra", lat: 12.9400, lng: 77.5960 },
+    { id: "", name: "Manipal Hospital - Old Airport Road", ward: "Ward 4 - Indiranagar", address: "98 HAL Old Airport Road", lat: 12.9580, lng: 77.6480 },
+    { id: "", name: "Jayanagar General Hospital", ward: "Ward 5 - Jayanagar", address: "4th T Block, Jayanagar", lat: 12.9290, lng: 77.5850 },
+    { id: "", name: "K.C. General Hospital", ward: "Ward 2 - Malleshwaram", address: "5th Cross Road, Malleshwaram", lat: 12.9990, lng: 77.5680 },
+    { id: "", name: "Urban Primary Health Centre", ward: "Ward 3 - HSR Layout", address: "Sector 2, HSR Layout", lat: 12.9150, lng: 77.6400 }
+  ],
+  publicFacilities: [
+    { id: "INST-006", name: "Metropolitan Transit Operations Terminal", ward: "Ward 1 - Majestic", address: "Platform Road, Majestic Central", lat: 12.9774, lng: 77.5729 },
+    { id: "", name: "Majestic Central Bus Station (BMTC/KSRTC)", ward: "Ward 1 - Majestic", address: "Kempegowda Bus Station, Majestic", lat: 12.9760, lng: 77.5710 },
+    { id: "", name: "Cubbon Park Public Facilities & Pavilion", ward: "Ward 1 - Majestic", address: "Kasturba Road, Sampangi Rama Nagar", lat: 12.9760, lng: 77.5930 },
+    { id: "", name: "Lalbagh Botanical Garden Facilities", ward: "Ward 5 - Jayanagar", address: "Mavalli, South Bengaluru", lat: 12.9500, lng: 77.5850 },
+    { id: "", name: "Russell Market Historical Municipal Complex", ward: "Ward 4 - Indiranagar", address: "Shivaji Nagar, Tasker Town", lat: 12.9860, lng: 77.6050 },
+    { id: "", name: "Indiranagar BBMP Community Hall", ward: "Ward 4 - Indiranagar", address: "100 Feet Road, Indiranagar", lat: 12.9720, lng: 77.6380 },
+    { id: "", name: "Malleshwaram 8th Cross Public Market", ward: "Ward 2 - Malleshwaram", address: "8th Cross Road, Malleshwaram", lat: 12.9970, lng: 77.5720 },
+    { id: "", name: "City Central Library - South End", ward: "Ward 5 - Jayanagar", address: "South End Circle, Jayanagar", lat: 12.9320, lng: 77.5780 },
+    { id: "", name: "Kanteerava Sports Stadium Complex", ward: "Ward 1 - Majestic", address: "Kasturba Road, Nunegundlapalli", lat: 12.9690, lng: 77.5920 }
+  ]
+};
+
+﻿// Step Wizard Navigation
 function goToWizardStep(step) {
   currentWizardStep = step;
 
@@ -49,7 +101,6 @@ function goToWizardStep(step) {
     populateReviewSummary();
   }
 
-  // Smooth scroll to top of wizard
   const wizardCard = document.getElementById('issue-report-form');
   if (wizardCard) {
     wizardCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -64,6 +115,90 @@ function nextWizardStep() {
       showToast('Please provide an issue title and description to proceed.', 'error');
       return;
     }
+
+    const locType = document.querySelector('input[name="location_type"]:checked')?.value || 'Public / Community';
+
+    if (locType === 'College / University') {
+      const select = document.getElementById('college-select');
+      const custom = document.getElementById('college-custom-name')?.value.trim();
+      const block = document.getElementById('college-block')?.value.trim();
+      if (!select?.value && !custom) {
+        showToast('Please select or specify a College / University.', 'error');
+        return;
+      }
+      if (select?.value === 'OTHER' && !custom) {
+        showToast('Please enter the College / University name.', 'error');
+        return;
+      }
+      if (!block) {
+        showToast('Please specify the campus, block, or building.', 'error');
+        return;
+      }
+    } else if (locType === 'School') {
+      const select = document.getElementById('school-select');
+      const custom = document.getElementById('school-custom-name')?.value.trim();
+      const block = document.getElementById('school-block')?.value.trim();
+      if (!select?.value && !custom) {
+        showToast('Please select or specify a School.', 'error');
+        return;
+      }
+      if (select?.value === 'OTHER' && !custom) {
+        showToast('Please enter the School name.', 'error');
+        return;
+      }
+      if (!block) {
+        showToast('Please specify the school block, building, or area.', 'error');
+        return;
+      }
+    } else if (locType === 'Office / Workplace') {
+      const select = document.getElementById('workplace-select');
+      const custom = document.getElementById('workplace-custom-name')?.value.trim();
+      const building = document.getElementById('workplace-building')?.value.trim();
+      if (!select?.value && !custom) {
+        showToast('Please select or specify a Workplace / Office.', 'error');
+        return;
+      }
+      if (select?.value === 'OTHER' && !custom) {
+        showToast('Please enter the Workplace name.', 'error');
+        return;
+      }
+      if (!building) {
+        showToast('Please specify the workplace building or block.', 'error');
+        return;
+      }
+    } else if (locType === 'Hospital / Healthcare') {
+      const select = document.getElementById('hospital-select');
+      const custom = document.getElementById('hospital-custom-name')?.value.trim();
+      const building = document.getElementById('hospital-building')?.value.trim();
+      if (!select?.value && !custom) {
+        showToast('Please select or specify a Hospital / Healthcare Facility.', 'error');
+        return;
+      }
+      if (select?.value === 'OTHER' && !custom) {
+        showToast('Please enter the Hospital / Facility name.', 'error');
+        return;
+      }
+      if (!building) {
+        showToast('Please specify the hospital building or block.', 'error');
+        return;
+      }
+    } else if (locType === 'Public Institution') {
+      const select = document.getElementById('public-facility-select');
+      const custom = document.getElementById('public-facility-custom-name')?.value.trim();
+      const area = document.getElementById('public-facility-area')?.value.trim();
+      if (!select?.value && !custom) {
+        showToast('Please select or specify a Public Facility.', 'error');
+        return;
+      }
+      if (select?.value === 'OTHER' && !custom) {
+        showToast('Please enter the Public Facility name.', 'error');
+        return;
+      }
+      if (!area) {
+        showToast('Please specify the area or section of the facility.', 'error');
+        return;
+      }
+    }
   } else if (currentWizardStep === 2) {
     const address = document.getElementById('report-address')?.value.trim();
     if (!address) {
@@ -71,6 +206,7 @@ function nextWizardStep() {
       return;
     }
   }
+
   goToWizardStep(Math.min(4, currentWizardStep + 1));
 }
 
@@ -87,6 +223,40 @@ function populateReviewSummary() {
   const ward = document.getElementById('report-ward')?.value || '—';
   const name = document.getElementById('report-name')?.value || 'Anonymous Citizen';
 
+  let locationSummary = `${locType} (${ward})`;
+
+  if (locType === 'College / University') {
+    const colSelect = document.getElementById('college-select');
+    const colName = (colSelect?.value === 'OTHER') ? document.getElementById('college-custom-name')?.value : (colSelect?.options[colSelect.selectedIndex]?.text || 'College');
+    const colBlock = document.getElementById('college-block')?.value || '';
+    const colRoom = document.getElementById('college-room')?.value || '';
+    locationSummary = `${colName} • ${colBlock}${colRoom ? ' (' + colRoom + ')' : ''}`;
+  } else if (locType === 'School') {
+    const schSelect = document.getElementById('school-select');
+    const schName = (schSelect?.value === 'OTHER') ? document.getElementById('school-custom-name')?.value : (schSelect?.options[schSelect.selectedIndex]?.text || 'School');
+    const schBlock = document.getElementById('school-block')?.value || '';
+    const schArea = document.getElementById('school-area-type')?.value || '';
+    locationSummary = `${schName} • ${schBlock} [${schArea}]`;
+  } else if (locType === 'Office / Workplace') {
+    const wpSelect = document.getElementById('workplace-select');
+    const wpName = (wpSelect?.value === 'OTHER') ? document.getElementById('workplace-custom-name')?.value : (wpSelect?.options[wpSelect.selectedIndex]?.text || 'Workplace');
+    const wpType = document.getElementById('workplace-type')?.value || '';
+    const wpBuilding = document.getElementById('workplace-building')?.value || '';
+    locationSummary = `${wpName} (${wpType}) • ${wpBuilding}`;
+  } else if (locType === 'Hospital / Healthcare') {
+    const hospSelect = document.getElementById('hospital-select');
+    const hospName = (hospSelect?.value === 'OTHER') ? document.getElementById('hospital-custom-name')?.value : (hospSelect?.options[hospSelect.selectedIndex]?.text || 'Hospital');
+    const hospType = document.getElementById('hospital-type')?.value || '';
+    const hospDept = document.getElementById('hospital-dept')?.value || '';
+    locationSummary = `${hospName} (${hospType}) • ${hospDept}`;
+  } else if (locType === 'Public Institution') {
+    const pubSelect = document.getElementById('public-facility-select');
+    const pubName = (pubSelect?.value === 'OTHER') ? document.getElementById('public-facility-custom-name')?.value : (pubSelect?.options[pubSelect.selectedIndex]?.text || 'Public Facility');
+    const pubType = document.getElementById('public-facility-type')?.value || '';
+    const pubArea = document.getElementById('public-facility-area')?.value || '';
+    locationSummary = `${pubName} (${pubType}) • ${pubArea}`;
+  }
+
   const revTitle = document.getElementById('rev-title');
   const revCat = document.getElementById('rev-category');
   const revLoc = document.getElementById('rev-location');
@@ -95,12 +265,12 @@ function populateReviewSummary() {
 
   if (revTitle) revTitle.innerText = title;
   if (revCat) revCat.innerText = category;
-  if (revLoc) revLoc.innerText = `${locType} (${ward})`;
+  if (revLoc) revLoc.innerText = locationSummary;
   if (revAddress) revAddress.innerText = address;
   if (revReporter) revReporter.innerText = name;
 }
 
-// Leaflet Map Initialization
+﻿// Leaflet Map Initialization
 function initReportMap() {
   const mapContainer = document.getElementById('report-map');
   if (!mapContainer) return;
@@ -151,38 +321,44 @@ function updateLocationInputs(lat, lng) {
 
   if (latInput) latInput.value = lat.toFixed(6);
   if (lngInput) lngInput.value = lng.toFixed(6);
-  if (coordDisplay) coordDisplay.innerText = `GPS Fixed: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-
-  triggerAIPreAnalyze();
+  if (coordDisplay) {
+    coordDisplay.innerHTML = `Pin Coordinates: <strong>${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E</strong> (drag marker to refine)`;
+  }
 }
 
+// GPS Geolocate Button
 function useCurrentGPS() {
+  const btn = document.getElementById('report-use-gps-btn');
   if (!navigator.geolocation) {
-    showToast('Geolocation is not supported by your browser', 'error');
+    showToast('Geolocation is not supported by your browser.', 'error');
     return;
   }
 
-  showToast('Acquiring precise GPS coordinates from device...', 'info');
+  if (btn) btn.innerHTML = '<span>📡 Acquiring GPS Fix...</span>';
+
   navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const { latitude, longitude } = pos.coords;
-      if (!reportMap) initReportMap();
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
       if (reportMap && reportMarker) {
-        reportMap.setView([latitude, longitude], 16);
-        reportMarker.setLatLng([latitude, longitude]);
-        updateLocationInputs(latitude, longitude);
-        showToast('Location updated from device GPS!', 'success');
+        reportMap.setView([lat, lng], 16);
+        reportMarker.setLatLng([lat, lng]);
       }
+      updateLocationInputs(lat, lng);
+      showToast('GPS position locked successfully!', 'success');
+      if (btn) btn.innerHTML = '<span>📍 Position Updated</span>';
     },
     (err) => {
-      console.warn('Geolocation error:', err);
-      showToast('Could not acquire GPS. Drag the map pin to set position.', 'error');
+      console.warn('GPS error:', err);
+      showToast('Could not fetch GPS. Defaulting to municipal center.', 'info');
+      if (btn) btn.innerHTML = '<span>📍 Use My GPS Location</span>';
     },
     { enableHighAccuracy: true, timeout: 8000 }
   );
 }
 
-// Live Interactive AI Pre-Analysis
+// Live AI Assistant Pre-Analyze Debounce
 function triggerAIPreAnalyze() {
   clearTimeout(aiDebounceTimer);
   aiDebounceTimer = setTimeout(async () => {
@@ -227,13 +403,11 @@ function renderAIPreview(aiData) {
 
   panel.style.display = 'block';
 
-  // Category & Confidence
   const catEl = document.getElementById('ai-pred-category');
   const confEl = document.getElementById('ai-pred-confidence');
   if (catEl) catEl.innerText = aiData.predicted_category;
   if (confEl) confEl.innerText = `${Math.round(aiData.category_confidence * 100)}% Confidence`;
 
-  // Priority & Reason
   const priEl = document.getElementById('ai-pred-priority');
   const reasonEl = document.getElementById('ai-pred-reason');
   if (priEl) {
@@ -242,11 +416,9 @@ function renderAIPreview(aiData) {
   }
   if (reasonEl) reasonEl.innerText = aiData.priority_reason;
 
-  // Recommended Squad
   const teamEl = document.getElementById('ai-rec-team');
   if (teamEl) teamEl.innerText = aiData.recommended_team || 'Municipal Maintenance Division';
 
-  // Duplicate Alert
   const dupBox = document.getElementById('ai-dup-alert');
   if (dupBox) {
     if (aiData.potential_duplicate) {
@@ -263,7 +435,6 @@ function renderAIPreview(aiData) {
     }
   }
 
-  // Auto-sync category selection if user hasn't locked one
   const autoSyncCheckbox = document.getElementById('auto-sync-category');
   if (autoSyncCheckbox && autoSyncCheckbox.checked && aiData.predicted_category) {
     const radio = document.querySelector(`input[name="category"][value="${aiData.predicted_category}"]`);
@@ -276,67 +447,140 @@ function resetAIPreview() {
   if (panel) panel.style.display = 'none';
 }
 
-// Load Institutions for Dropdown
-async function populateInstitutionDropdown(selectedType) {
-  const select = document.getElementById('report-institution-select');
-  const container = document.getElementById('institution-select-container');
-  if (!select || !container) return;
+﻿// DYNAMIC CONDITIONAL LOCATION FORM LOGIC
+function switchLocationTypeForm(locType) {
+  const cards = [
+    'loc-card-public',
+    'loc-card-college',
+    'loc-card-school',
+    'loc-card-workplace',
+    'loc-card-hospital',
+    'loc-card-public-facility'
+  ];
 
-  if (selectedType === 'Public / Community' || selectedType === 'Other') {
-    container.style.display = 'none';
-    select.innerHTML = '<option value="">Not Applicable</option>';
-    return;
+  cards.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+
+  document.querySelectorAll('.wizard-options-grid label').forEach(lbl => {
+    const r = lbl.querySelector('input[name="location_type"]');
+    if (r && r.value === locType) {
+      lbl.style.borderColor = 'var(--teal-600)';
+      lbl.style.background = '#FFFFFF';
+      lbl.style.boxShadow = 'var(--shadow-sm)';
+    } else {
+      lbl.style.borderColor = 'var(--border-light)';
+      lbl.style.background = 'var(--bg-secondary)';
+      lbl.style.boxShadow = 'none';
+    }
+  });
+
+  let targetCardId = 'loc-card-public';
+  if (locType === 'College / University') targetCardId = 'loc-card-college';
+  else if (locType === 'School') targetCardId = 'loc-card-school';
+  else if (locType === 'Office / Workplace') targetCardId = 'loc-card-workplace';
+  else if (locType === 'Hospital / Healthcare') targetCardId = 'loc-card-hospital';
+  else if (locType === 'Public Institution') targetCardId = 'loc-card-public-facility';
+
+  const targetCard = document.getElementById(targetCardId);
+  if (targetCard) {
+    targetCard.style.display = 'block';
+    targetCard.classList.add('fade-in');
   }
 
-  container.style.display = 'block';
-  select.innerHTML = '<option value="">Select Institution / Campus...</option>';
+  if (locType === 'College / University') populateColleges();
+  else if (locType === 'School') populateSchools();
+  else if (locType === 'Office / Workplace') populateWorkplaces();
+  else if (locType === 'Hospital / Healthcare') populateHospitals();
+  else if (locType === 'Public Institution') populatePublicFacilities();
+}
 
-  try {
-    const res = await fetch('/api/institutions');
-    if (!res.ok) return;
-    const institutions = await res.json();
+function handleInstitutionSelection(selectEl, customBoxId) {
+  const selected = selectEl.options[selectEl.selectedIndex];
+  const customBox = document.getElementById(customBoxId);
 
-    const filtered = institutions.filter(inst => {
-      if (selectedType === 'School' && inst.type === 'School') return true;
-      if (selectedType === 'College / University' && inst.type === 'College / University') return true;
-      if (selectedType === 'Office / Workplace' && inst.type === 'Office / Workplace') return true;
-      if (selectedType === 'Hospital / Healthcare' && inst.type === 'Hospital') return true;
-      if (selectedType === 'Public Institution') return true;
-      return false;
-    });
+  if (selectEl.value === 'OTHER') {
+    if (customBox) customBox.style.display = 'block';
+    return;
+  } else {
+    if (customBox) customBox.style.display = 'none';
+  }
 
-    (filtered.length ? filtered : institutions).forEach(inst => {
-      const opt = document.createElement('option');
-      opt.value = inst.id;
-      opt.innerText = `${inst.name} (${inst.ward})`;
-      opt.dataset.lat = inst.latitude;
-      opt.dataset.lng = inst.longitude;
-      opt.dataset.ward = inst.ward;
-      opt.dataset.name = inst.name;
-      select.appendChild(opt);
-    });
+  if (selected && selected.dataset.lat) {
+    const lat = parseFloat(selected.dataset.lat);
+    const lng = parseFloat(selected.dataset.lng);
+    const ward = selected.dataset.ward;
+    const addr = selected.dataset.address;
 
-    select.onchange = () => {
-      const selected = select.options[select.selectedIndex];
-      if (selected && selected.dataset.lat && reportMap && reportMarker) {
-        const lat = parseFloat(selected.dataset.lat);
-        const lng = parseFloat(selected.dataset.lng);
+    if (lat && lng) {
+      updateLocationInputs(lat, lng);
+      if (reportMap && reportMarker) {
         reportMap.setView([lat, lng], 16);
         reportMarker.setLatLng([lat, lng]);
-        updateLocationInputs(lat, lng);
-
-        const wardInput = document.getElementById('report-ward');
-        if (wardInput && selected.dataset.ward) {
-          wardInput.value = selected.dataset.ward;
-        }
       }
-    };
-  } catch (err) {
-    console.error('Error fetching institutions:', err);
+    }
+
+    if (ward) {
+      const wardSelect = document.getElementById('report-ward');
+      if (wardSelect) wardSelect.value = ward;
+    }
+
+    if (addr) {
+      const addrInput = document.getElementById('report-address');
+      if (addrInput) addrInput.value = addr;
+    }
   }
 }
 
-// Photo Upload Handler
+function populateDropdown(selectId, customBoxId, items, defaultLabel, otherLabel) {
+  const select = document.getElementById(selectId);
+  if (!select || select.children.length > 1) return;
+
+  select.innerHTML = `<option value="">${defaultLabel}</option>`;
+
+  items.forEach(item => {
+    const opt = document.createElement('option');
+    opt.value = item.id || item.name;
+    opt.innerText = item.ward ? `${item.name} (${item.ward})` : item.name;
+    opt.dataset.id = item.id || '';
+    opt.dataset.name = item.name;
+    opt.dataset.lat = item.lat || '';
+    opt.dataset.lng = item.lng || '';
+    opt.dataset.ward = item.ward || '';
+    opt.dataset.address = item.address || '';
+    select.appendChild(opt);
+  });
+
+  const otherOpt = document.createElement('option');
+  otherOpt.value = 'OTHER';
+  otherOpt.innerText = otherLabel || 'Other (Specify Below)...';
+  select.appendChild(otherOpt);
+
+  select.onchange = () => handleInstitutionSelection(select, customBoxId);
+}
+
+function populateColleges() {
+  populateDropdown('college-select', 'college-custom-name-box', LOCATION_PRESETS.colleges, 'Select College / University...', 'Other College / University (Specify Name)...');
+}
+
+function populateSchools() {
+  populateDropdown('school-select', 'school-custom-name-box', LOCATION_PRESETS.schools, 'Select School...', 'Other School (Specify Name)...');
+}
+
+function populateWorkplaces() {
+  populateDropdown('workplace-select', 'workplace-custom-name-box', LOCATION_PRESETS.workplaces, 'Select Workplace / Office...', 'Other Workplace / Office (Specify Name)...');
+}
+
+function populateHospitals() {
+  populateDropdown('hospital-select', 'hospital-custom-name-box', LOCATION_PRESETS.hospitals, 'Select Hospital / Healthcare Facility...', 'Other Hospital / Facility (Specify Name)...');
+}
+
+function populatePublicFacilities() {
+  populateDropdown('public-facility-select', 'public-facility-custom-name-box', LOCATION_PRESETS.publicFacilities, 'Select Public Facility...', 'Other Public Facility (Specify Name)...');
+}
+
+﻿// Photo Upload Handler
 function initPhotoUpload() {
   const fileInput = document.getElementById('report-photo-input');
   const previewContainer = document.getElementById('photo-preview-container');
@@ -386,15 +630,88 @@ async function handleReportSubmit(e) {
   const description = document.getElementById('report-description')?.value.trim();
   const location_type = document.querySelector('input[name="location_type"]:checked')?.value || 'Public / Community';
   const category = document.querySelector('input[name="category"]:checked')?.value || 'Other';
-  
-  const instSelect = document.getElementById('report-institution-select');
-  const institution_id = (instSelect && instSelect.value) ? instSelect.value : null;
-  const institution_name = (instSelect && instSelect.selectedIndex > 0) ? instSelect.options[instSelect.selectedIndex].dataset.name : null;
+
+  let institution_id = null;
+  let institution_name = null;
+  let specificLandmark = document.getElementById('report-landmark')?.value.trim() || '';
+
+  if (location_type === 'College / University') {
+    const sel = document.getElementById('college-select');
+    const custom = document.getElementById('college-custom-name')?.value.trim();
+    const block = document.getElementById('college-block')?.value.trim() || '';
+    const dept = document.getElementById('college-dept')?.value.trim() || '';
+    const room = document.getElementById('college-room')?.value.trim() || '';
+
+    if (sel?.value === 'OTHER') {
+      institution_name = custom;
+    } else if (sel && sel.selectedIndex > 0) {
+      institution_id = sel.options[sel.selectedIndex].dataset.id || null;
+      institution_name = sel.options[sel.selectedIndex].dataset.name || sel.options[sel.selectedIndex].text;
+    }
+    specificLandmark = `Block: ${block}${dept ? ' | Dept: ' + dept : ''}${room ? ' | Room: ' + room : ''}`;
+  } else if (location_type === 'School') {
+    const sel = document.getElementById('school-select');
+    const custom = document.getElementById('school-custom-name')?.value.trim();
+    const block = document.getElementById('school-block')?.value.trim() || '';
+    const area = document.getElementById('school-area-type')?.value || '';
+    const room = document.getElementById('school-room')?.value.trim() || '';
+
+    if (sel?.value === 'OTHER') {
+      institution_name = custom;
+    } else if (sel && sel.selectedIndex > 0) {
+      institution_id = sel.options[sel.selectedIndex].dataset.id || null;
+      institution_name = sel.options[sel.selectedIndex].dataset.name || sel.options[sel.selectedIndex].text;
+    }
+    specificLandmark = `Block: ${block} | Area: ${area}${room ? ' | Section: ' + room : ''}`;
+  } else if (location_type === 'Office / Workplace') {
+    const sel = document.getElementById('workplace-select');
+    const custom = document.getElementById('workplace-custom-name')?.value.trim();
+    const wpType = document.getElementById('workplace-type')?.value || '';
+    const building = document.getElementById('workplace-building')?.value.trim() || '';
+    const dept = document.getElementById('workplace-dept')?.value.trim() || '';
+    const room = document.getElementById('workplace-room')?.value.trim() || '';
+
+    if (sel?.value === 'OTHER') {
+      institution_name = custom;
+    } else if (sel && sel.selectedIndex > 0) {
+      institution_id = sel.options[sel.selectedIndex].dataset.id || null;
+      institution_name = sel.options[sel.selectedIndex].dataset.name || sel.options[sel.selectedIndex].text;
+    }
+    specificLandmark = `Type: ${wpType} | Building: ${building}${dept ? ' | Dept: ' + dept : ''}${room ? ' | Room: ' + room : ''}`;
+  } else if (location_type === 'Hospital / Healthcare') {
+    const sel = document.getElementById('hospital-select');
+    const custom = document.getElementById('hospital-custom-name')?.value.trim();
+    const hospType = document.getElementById('hospital-type')?.value || '';
+    const building = document.getElementById('hospital-building')?.value.trim() || '';
+    const dept = document.getElementById('hospital-dept')?.value || '';
+    const floor = document.getElementById('hospital-floor')?.value.trim() || '';
+    const room = document.getElementById('hospital-room')?.value.trim() || '';
+
+    if (sel?.value === 'OTHER') {
+      institution_name = custom;
+    } else if (sel && sel.selectedIndex > 0) {
+      institution_id = sel.options[sel.selectedIndex].dataset.id || null;
+      institution_name = sel.options[sel.selectedIndex].dataset.name || sel.options[sel.selectedIndex].text;
+    }
+    specificLandmark = `Type: ${hospType} | Building: ${building} | Ward: ${dept}${floor ? ' | Floor: ' + floor : ''}${room ? ' | Room: ' + room : ''}`;
+  } else if (location_type === 'Public Institution') {
+    const sel = document.getElementById('public-facility-select');
+    const custom = document.getElementById('public-facility-custom-name')?.value.trim();
+    const pubType = document.getElementById('public-facility-type')?.value || '';
+    const area = document.getElementById('public-facility-area')?.value.trim() || '';
+
+    if (sel?.value === 'OTHER') {
+      institution_name = custom;
+    } else if (sel && sel.selectedIndex > 0) {
+      institution_id = sel.options[sel.selectedIndex].dataset.id || null;
+      institution_name = sel.options[sel.selectedIndex].dataset.name || sel.options[sel.selectedIndex].text;
+    }
+    specificLandmark = `Type: ${pubType} | Section: ${area}`;
+  }
 
   const latitude = parseFloat(document.getElementById('report-lat')?.value) || DEFAULT_COORDS[0];
   const longitude = parseFloat(document.getElementById('report-lng')?.value) || DEFAULT_COORDS[1];
   const address = document.getElementById('report-address')?.value.trim() || 'Unspecified Location';
-  const landmark = document.getElementById('report-landmark')?.value.trim() || '';
   const ward = document.getElementById('report-ward')?.value || 'Ward 4 - Indiranagar';
 
   const reporter_name = document.getElementById('report-name')?.value.trim() || 'Citizen';
@@ -423,10 +740,11 @@ async function handleReportSubmit(e) {
       latitude,
       longitude,
       address,
-      landmark,
+      landmark: specificLandmark,
       ward,
       reporter_name,
-      reporter_contact
+      reporter_contact,
+      photo_url: uploadedPhotoUrl
     };
 
     const res = await fetch('/api/complaints', {
@@ -451,6 +769,7 @@ async function handleReportSubmit(e) {
     if (document.getElementById('photo-preview-container')) {
       document.getElementById('photo-preview-container').style.display = 'none';
     }
+    switchLocationTypeForm('Public / Community');
     goToWizardStep(1);
   } catch (err) {
     console.error('Submission error:', err);
@@ -458,7 +777,7 @@ async function handleReportSubmit(e) {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerText = 'Submit Complaint to Civic Ledger';
+      submitBtn.innerText = 'Submit Issue Report';
     }
   }
 }
@@ -512,7 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('input[name="location_type"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
-      populateInstitutionDropdown(e.target.value);
+      switchLocationTypeForm(e.target.value);
       triggerAIPreAnalyze();
     });
   });
@@ -527,12 +846,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (descInput) descInput.addEventListener('input', triggerAIPreAnalyze);
 
   initPhotoUpload();
+  switchLocationTypeForm('Public / Community');
 });
 
-// Quick select from Homepage Category Cards
 function selectCategoryAndReport(categoryName) {
-  switchTab('report');
-  goToWizardStep(1);
+  if (typeof switchTab === 'function') switchTab('report');
+  if (typeof goToWizardStep === 'function') goToWizardStep(1);
   setTimeout(() => {
     const radio = document.querySelector(`input[name="category"][value="${categoryName}"]`);
     if (radio) {
@@ -541,4 +860,3 @@ function selectCategoryAndReport(categoryName) {
     }
   }, 100);
 }
-

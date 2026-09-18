@@ -104,6 +104,7 @@ def create_complaint(
         longitude=payload.longitude,
         address=payload.address,
         landmark=payload.landmark,
+        photo_url=payload.photo_url,
         ward=payload.ward,
         reporter_name=payload.reporter_name or "Citizen",
         reporter_contact=payload.reporter_contact,

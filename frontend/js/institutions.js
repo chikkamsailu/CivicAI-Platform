@@ -143,21 +143,35 @@ function closeInstitutionDocket() {
 }
 
 function reportForInstitution(instId, instName, instType) {
-  switchTab('report');
+  if (typeof switchTab === 'function') switchTab('report');
+  if (typeof goToWizardStep === 'function') goToWizardStep(1);
+
   setTimeout(() => {
-    // Select matching location type
-    const radio = document.querySelector(`input[name="location_type"][value="${instType}"]`);
+    let targetRadioVal = instType;
+    if (instType === 'Hospital') targetRadioVal = 'Hospital / Healthcare';
+    else if (instType === 'Municipal Facility') targetRadioVal = 'Public Institution';
+
+    const radio = document.querySelector(`input[name="location_type"][value="${targetRadioVal}"]`);
     if (radio) {
       radio.checked = true;
-      if (typeof populateInstitutionDropdown === 'function') {
-        populateInstitutionDropdown(instType).then(() => {
-          const select = document.getElementById('report-institution-select');
-          if (select) {
-            select.value = instId;
-            select.dispatchEvent(new Event('change'));
-          }
-        });
-      }
+      radio.dispatchEvent(new Event('change'));
+    }
+
+    if (typeof switchLocationTypeForm === 'function') {
+      switchLocationTypeForm(targetRadioVal);
+      setTimeout(() => {
+        let selectId = 'college-select';
+        if (targetRadioVal === 'School') selectId = 'school-select';
+        else if (targetRadioVal === 'Office / Workplace') selectId = 'workplace-select';
+        else if (targetRadioVal === 'Hospital / Healthcare') selectId = 'hospital-select';
+        else if (targetRadioVal === 'Public Institution') selectId = 'public-facility-select';
+
+        const select = document.getElementById(selectId);
+        if (select) {
+          select.value = instId;
+          select.dispatchEvent(new Event('change'));
+        }
+      }, 100);
     }
   }, 150);
 }

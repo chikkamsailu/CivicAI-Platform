@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -17,6 +17,7 @@ class ComplaintCreate(BaseModel):
     ward: str
     reporter_name: Optional[str] = "Citizen"
     reporter_contact: Optional[str] = None
+    photo_url: Optional[str] = None
 
 class ComplaintUpdate(BaseModel):
     status: Optional[str] = None
