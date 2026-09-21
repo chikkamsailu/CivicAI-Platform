@@ -2,3 +2,14 @@ __pycache__/
 *.pyc
 .pytest_cache/
 scratch/
+
+# Environment and secrets
+.env
+.env.*
+
+# Local database
+*.db
+
+# Uploaded files
+backend/uploads/*
+!backend/uploads/.gitkeep

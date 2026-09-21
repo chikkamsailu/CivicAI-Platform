@@ -1,4 +1,4 @@
-﻿// CivicAI - Guided 4-Step Issue Reporting Wizard & Location-Specific Dynamic Context
+// CivicAI - Guided 4-Step Issue Reporting Wizard & Location-Specific Dynamic Context
 let reportMap = null;
 let reportMarker = null;
 let aiDebounceTimer = null;
@@ -60,7 +60,7 @@ const LOCATION_PRESETS = {
   ]
 };
 
-﻿// Step Wizard Navigation
+// Step Wizard Navigation
 function goToWizardStep(step) {
   currentWizardStep = step;
 
@@ -270,7 +270,7 @@ function populateReviewSummary() {
   if (revReporter) revReporter.innerText = name;
 }
 
-﻿// Leaflet Map Initialization
+// Leaflet Map Initialization
 function initReportMap() {
   const mapContainer = document.getElementById('report-map');
   if (!mapContainer) return;
@@ -447,9 +447,67 @@ function resetAIPreview() {
   if (panel) panel.style.display = 'none';
 }
 
-﻿// DYNAMIC CONDITIONAL LOCATION FORM LOGIC
+// DYNAMIC CONDITIONAL LOCATION FORM LOGIC
+function normalizeLocationType(locType) {
+  if (!locType) return 'Public / Community';
+  const val = String(locType).trim();
+  if (val === 'Public / Road' || val === 'Public' || val === 'Road' || val === 'Public / Community') {
+    return 'Public / Community';
+  }
+  if (val === 'College / University' || val === 'College / Univ' || val === 'College' || val === 'University') {
+    return 'College / University';
+  }
+  if (val === 'School' || val === 'Schools') {
+    return 'School';
+  }
+  if (val === 'Office / Workplace' || val === 'Workplace' || val === 'Office' || val === 'Workplaces') {
+    return 'Office / Workplace';
+  }
+  if (val === 'Hospital / Healthcare' || val === 'Hospital' || val === 'Healthcare' || val === 'Hospitals') {
+    return 'Hospital / Healthcare';
+  }
+  if (val === 'Public Institution' || val === 'Public Facility' || val === 'Municipal Facility' || val === 'Public Facilities') {
+    return 'Public Institution';
+  }
+  return val;
+}
+
+function selectLocationType(locType) {
+  const normalized = normalizeLocationType(locType);
+
+  // Update corresponding radio button
+  const radios = document.querySelectorAll('input[name="location_type"]');
+  radios.forEach(radio => {
+    if (radio.value === normalized || normalizeLocationType(radio.value) === normalized) {
+      radio.checked = true;
+    } else {
+      radio.checked = false;
+    }
+  });
+
+  // Switch form context card immediately
+  switchLocationTypeForm(normalized);
+
+  // Trigger AI pre-analyze to adapt to new location context
+  if (typeof triggerAIPreAnalyze === 'function') {
+    triggerAIPreAnalyze();
+  }
+}
+window.selectLocationType = selectLocationType;
+
 function switchLocationTypeForm(locType) {
-  const cards = [
+  const normalized = normalizeLocationType(locType);
+
+  const cardMap = {
+    'Public / Community': 'loc-card-public',
+    'College / University': 'loc-card-college',
+    'School': 'loc-card-school',
+    'Office / Workplace': 'loc-card-workplace',
+    'Hospital / Healthcare': 'loc-card-hospital',
+    'Public Institution': 'loc-card-public-facility'
+  };
+
+  const allCards = [
     'loc-card-public',
     'loc-card-college',
     'loc-card-school',
@@ -458,17 +516,22 @@ function switchLocationTypeForm(locType) {
     'loc-card-public-facility'
   ];
 
-  cards.forEach(id => {
+  // Immediately hide all 6 cards
+  allCards.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
+    if (el) {
+      el.style.display = 'none';
+    }
   });
 
+  // Highlight selected button card, unhighlight others
   document.querySelectorAll('.wizard-options-grid label').forEach(lbl => {
     const r = lbl.querySelector('input[name="location_type"]');
-    if (r && r.value === locType) {
+    const isSelected = r && (r.value === normalized || normalizeLocationType(r.value) === normalized);
+    if (isSelected) {
       lbl.style.borderColor = 'var(--teal-600)';
       lbl.style.background = '#FFFFFF';
-      lbl.style.boxShadow = 'var(--shadow-sm)';
+      lbl.style.boxShadow = '0 2px 8px rgba(38, 113, 124, 0.15)';
     } else {
       lbl.style.borderColor = 'var(--border-light)';
       lbl.style.background = 'var(--bg-secondary)';
@@ -476,25 +539,22 @@ function switchLocationTypeForm(locType) {
     }
   });
 
-  let targetCardId = 'loc-card-public';
-  if (locType === 'College / University') targetCardId = 'loc-card-college';
-  else if (locType === 'School') targetCardId = 'loc-card-school';
-  else if (locType === 'Office / Workplace') targetCardId = 'loc-card-workplace';
-  else if (locType === 'Hospital / Healthcare') targetCardId = 'loc-card-hospital';
-  else if (locType === 'Public Institution') targetCardId = 'loc-card-public-facility';
-
-  const targetCard = document.getElementById(targetCardId);
+  // Display target card immediately
+  const targetId = cardMap[normalized] || 'loc-card-public';
+  const targetCard = document.getElementById(targetId);
   if (targetCard) {
     targetCard.style.display = 'block';
     targetCard.classList.add('fade-in');
   }
 
-  if (locType === 'College / University') populateColleges();
-  else if (locType === 'School') populateSchools();
-  else if (locType === 'Office / Workplace') populateWorkplaces();
-  else if (locType === 'Hospital / Healthcare') populateHospitals();
-  else if (locType === 'Public Institution') populatePublicFacilities();
+  // Populate dynamic dropdowns
+  if (normalized === 'College / University') populateColleges();
+  else if (normalized === 'School') populateSchools();
+  else if (normalized === 'Office / Workplace') populateWorkplaces();
+  else if (normalized === 'Hospital / Healthcare') populateHospitals();
+  else if (normalized === 'Public Institution') populatePublicFacilities();
 }
+window.switchLocationTypeForm = switchLocationTypeForm;
 
 function handleInstitutionSelection(selectEl, customBoxId) {
   const selected = selectEl.options[selectEl.selectedIndex];
@@ -580,7 +640,7 @@ function populatePublicFacilities() {
   populateDropdown('public-facility-select', 'public-facility-custom-name-box', LOCATION_PRESETS.publicFacilities, 'Select Public Facility...', 'Other Public Facility (Specify Name)...');
 }
 
-﻿// Photo Upload Handler
+// Photo Upload Handler
 function initPhotoUpload() {
   const fileInput = document.getElementById('report-photo-input');
   const previewContainer = document.getElementById('photo-preview-container');
@@ -829,10 +889,22 @@ document.addEventListener('DOMContentLoaded', () => {
     gpsBtn.addEventListener('click', useCurrentGPS);
   }
 
+  // Location type selection bindings (both label cards and radio inputs)
+  document.querySelectorAll('.wizard-options-grid label').forEach(lbl => {
+    lbl.addEventListener('click', function (e) {
+      const radio = this.querySelector('input[name="location_type"]');
+      if (radio) {
+        selectLocationType(radio.value);
+      }
+    });
+  });
+
   document.querySelectorAll('input[name="location_type"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
-      switchLocationTypeForm(e.target.value);
-      triggerAIPreAnalyze();
+      selectLocationType(e.target.value);
+    });
+    radio.addEventListener('click', (e) => {
+      selectLocationType(e.target.value);
     });
   });
 
@@ -846,7 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (descInput) descInput.addEventListener('input', triggerAIPreAnalyze);
 
   initPhotoUpload();
-  switchLocationTypeForm('Public / Community');
+  selectLocationType('Public / Community');
 });
 
 function selectCategoryAndReport(categoryName) {

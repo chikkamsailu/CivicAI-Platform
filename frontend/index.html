@@ -612,34 +612,34 @@
               1. Where is the issue located?
             </label>
             <div class="wizard-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:0.75rem;">
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="Public / Community" checked style="display:none;" />
-                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛣&#65039;</div>
+              <label id="loc-btn-public" onclick="selectLocationType('Public / Community')" data-location-type="Public / Community" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-public" name="location_type" value="Public / Community" checked style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🛣️</div>
                 <div style="font-size:0.85rem; font-weight:600;">Public / Road</div>
               </label>
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="College / University" style="display:none;" />
+              <label id="loc-btn-college" onclick="selectLocationType('College / University')" data-location-type="College / University" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-college" name="location_type" value="College / University" style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
                 <div style="font-size:1.5rem; margin-bottom:0.25rem;">🎓</div>
                 <div style="font-size:0.85rem; font-weight:600;">College / Univ</div>
               </label>
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="School" style="display:none;" />
+              <label id="loc-btn-school" onclick="selectLocationType('School')" data-location-type="School" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-school" name="location_type" value="School" style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
                 <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏫</div>
                 <div style="font-size:0.85rem; font-weight:600;">School</div>
               </label>
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="Office / Workplace" style="display:none;" />
+              <label id="loc-btn-workplace" onclick="selectLocationType('Office / Workplace')" data-location-type="Office / Workplace" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-workplace" name="location_type" value="Office / Workplace" style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
                 <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏢</div>
                 <div style="font-size:0.85rem; font-weight:600;">Workplace</div>
               </label>
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="Hospital / Healthcare" style="display:none;" />
+              <label id="loc-btn-hospital" onclick="selectLocationType('Hospital / Healthcare')" data-location-type="Hospital / Healthcare" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-hospital" name="location_type" value="Hospital / Healthcare" style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
                 <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏥</div>
                 <div style="font-size:0.85rem; font-weight:600;">Hospital</div>
               </label>
-              <label style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
-                <input type="radio" name="location_type" value="Public Institution" style="display:none;" />
-                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏛&#65039;</div>
+              <label id="loc-btn-public-facility" onclick="selectLocationType('Public Institution')" data-location-type="Public Institution" style="border:1px solid var(--border-light); border-radius:var(--radius-md); padding:0.9rem 0.5rem; text-align:center; cursor:pointer; background:var(--bg-secondary); transition:all 0.2s ease;">
+                <input type="radio" id="loc-radio-public-facility" name="location_type" value="Public Institution" style="position:absolute; opacity:0; pointer-events:none; width:0; height:0;" />
+                <div style="font-size:1.5rem; margin-bottom:0.25rem;">🏛️</div>
                 <div style="font-size:0.85rem; font-weight:600;">Public Facility</div>
               </label>
             </div>
